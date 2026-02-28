@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Demo AI-Driven | MetàHodòs</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-ai: #3b82f6;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+            --radius-md: 15px;
+            --radius-pill: 30px;
+            --transition: 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-gray-medium);
+            background: var(--color-gray-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--color-gray-dark);
+            padding: 16px 0;
+        }
+
+        .nav-brand {
+            font-family: var(--font-headings);
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--color-orange);
+        }
+
+        .back-link {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            font-size: 14px;
+            float: right;
+            margin-top: 5px;
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--color-white);
+            padding: 60px 0 50px;
+            text-align: center;
+            border-bottom: 1px solid var(--color-gray-border);
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: 48px;
+            color: var(--color-gray-dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--color-orange);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--color-gray-medium);
+        }
+
+        /* BRAND DOTS */
+        .brand-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .dot-pink {
+            background: var(--color-pink);
+        }
+
+        .dot-orange {
+            background: var(--color-orange);
+        }
+
+        .dot-green {
+            background: var(--color-green);
+        }
+
+        /* CARDS */
+        .demo-section {
+            padding: 60px 0;
+        }
+
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-top: 4px solid var(--color-orange);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .phase-badge {
+            background: var(--color-orange);
+            color: white;
+            font-family: var(--font-headings);
+            font-size: 20px;
+            font-weight: 700;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card h2 {
+            font-family: var(--font-headings);
+            font-size: 32px;
+            color: var(--color-gray-dark);
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* FORMS */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-gray-dark);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--color-gray-border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--color-orange);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--color-orange);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-headings);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(248, 159, 90, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-gray-light);
+            color: var(--color-gray-dark);
+            padding: 10px 20px;
+            border: 1px solid var(--color-gray-border);
+            border-radius: var(--radius-pill);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: #E0E0E0;
+        }
+
+        /* RESULTS BOX */
+        .result-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 24px;
+            display: none;
+            white-space: pre-wrap;
+            font-size: 15px;
+        }
+
+        /* SCORE DASHBOARD */
+        .score-dash {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .score-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--color-white);
+            border: 6px solid var(--color-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-headings);
+            color: var(--color-gray-dark);
+        }
+
+        .score-circle.medium {
+            border-color: var(--color-orange);
+        }
+
+        .score-circle.low {
+            border-color: var(--color-pink);
+        }
+
+        .score-circle .val {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-circle .lbl {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--color-gray-medium);
+        }
+
+        .score-summary {
+            flex: 1;
+            font-size: 16px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-green);
+        }
+
+        .lists-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .list-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .list-box h4 {
+            margin-top: 0;
+            font-family: var(--font-headings);
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .list-box.pro h4 {
+            color: var(--color-green);
+        }
+
+        .list-box.con h4 {
+            color: var(--color-pink);
+        }
+
+        .list-box ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+        }
+
+        /* LOADER */
+        .loader {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-family: var(--font-headings);
+            font-size: 18px;
+            color: var(--color-orange);
+            font-weight: 600;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(248, 159, 90, 0.3);
+            border-top-color: var(--color-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="/static/hiring.html" class="nav-brand">MetàHodo<span>s</span></a>
+            <a href="/static/hiring.html" class="back-link">← Torna e Leggi il Flow Completo</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Demo <span>Live</span> Processo HR</h1>
+            <p class="subtitle">Testa l'AI nella Scrittura della JD e nello Scoring dei CV</p>
+            <div class="brand-dots">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="demo-section">
+        <div class="container">
+
+            <!-- FASE 1: JD GENERATOR -->
+            <div class="card" id="phase1">
+                <div class="card-header">
+                    <div class="phase-badge">1</div>
+                    <h2>Co-Creazione Job Description</h2>
+                </div>
+                <p>L'Umano definisce il ruolo e le priorità strategiche. L'Agente AI espande il brief in una JD
+                    completa.</p>
+
+                <div class="form-group">
+                    <label>Titolo del Ruolo:</label>
+                    <input type="text" id="jd-role" value="Full Stack Developer (React & Python)"
+                        placeholder="Es: IT Project Manager">
+                </div>
+
+                <div class="form-group">
+                    <label>Brief Strategico (Requisiti chiave e Contesto):</label>
+                    <textarea id="jd-brief"
+                        placeholder="Scrivi un breve brief...">Cerchiamo uno sviluppatore con 3 anni di esperienza. Deve saper usare React lato frontend e Python (FastAPI) lato backend. È importante che capisca le architetture AI e sappia lavorare in Agile. Offriamo remote work 3 giorni a settimana o Full Remote, RAL 40k. L'azienda è dinamica e lavoriamo su prodotti AI per grandi brand.</textarea>
+                </div>
+
+                <button class="btn-primary" id="btn-generate">Genera JD con AI</button>
+
+                <div class="loader" id="loader-jd">
+                    <div class="spinner"></div> Elaborazione Job Description in corso...
+                </div>
+
+                <div class="result-box" id="result-jd"></div>
+            </div>
+
+            <!-- FASE 2: CV SCORING -->
+            <div class="card" id="phase2">
+                <div class="card-header">
+                    <div class="phase-badge">2</div>
+                    <h2>CV Scoring Matematico</h2>
+                </div>
+                <p>Inserisci la Job Description (puoi copiare quella generata) e un CV mock. L'AI estrarrà un Match
+                    Score e i Gap formativi in 4 secondi.</p>
+
+                <div class="form-group">
+                    <label>Job Description in uso:</label>
+                    <textarea id="score-jd" style="min-height: 150px; background: #fffde7;"
+                        placeholder="Incolla qui la JD generata nella Fase 1..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="margin:0;">Testo del Curriculum Vitae (CV):</label>
+                        <button class="btn-secondary" onclick="loadMockCV()">Carica CV Esempio</button>
+                    </div>
+                    <textarea id="score-cv" style="min-height: 200px;"
+                        placeholder="Incolla il testo del CV qui..."></textarea>
+                </div>
+
+                <button class="btn-primary" id="btn-score">Analizza e Genera Score</button>
+
+                <div class="loader" id="loader-score">
+                    <div class="spinner"></div> Estrazione dati ed elaborazione Score in corso...
+                </div>
+
+                <!-- DASHBOARD RISULTATI -->
+                <div class="score-dash" id="score-dashboard">
+                    <div class="score-header">
+                        <div class="score-circle" id="circle-score">
+                            <span class="val" id="render-score">0</span>
+                            <span class="lbl">/ 100</span>
+                        </div>
+                        <div class="score-summary" id="render-summary">
+                            <strong>Sintesi:</strong> Candidato solido ma con alcune lacune tecniche specifiche. Ottimo
+                            potenziale di crescita.
+                        </div>
+                    </div>
+
+                    <div class="lists-grid">
+                        <div class="list-box pro">
+                            <h4>Punti di Forza</h4>
+                            <ul id="render-pros"></ul>
+                        </div>
+                        <div class="list-box con">
+                            <h4>Gap / Aree Deboli</h4>
+                            <ul id="render-cons"></ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- JS LOGIC -->
+    <script>
+        const MOCK_CV = `
+Nome: Mario Rossi
+Email: mario.rossi@example.com
+Telefono: +39 333 1234567
+
+PROFILO
+Sviluppatore Web appassionato con 4 anni di esperienza nella creazione di interfacce moderne e performanti. Ottime capacità di problem solving e lavoro in team.
+
+ESPERIENZA
+- Frontend Developer - TechVision Srl (2021 - Presente)
+  Sviluppo di portali B2B usando React e Redux. Focus su performance e UX. Lavoro in Agile (Scrum).
+- Junior Web Developer - WebAgency (2019 - 2021)
+  Creazione siti web in HTML, JS e PHP/WordPress.
+
+SKILL TECNICHE
+- Ottimo: HTML, CSS, JavaScript (ES6+), React, Vue.js
+- Discreto: Node.js, Express, MongoDB
+- Base: Python (scripting base), SQL
+
+FORMAZIONE
+- Laurea in Informatica - Università degli Studi di Milano (2019)
+- Corso Full-Stack Developer - Boolean Careers (2020)
+`;
+
+        function loadMockCV() {
+            document.getElementById('score-cv').value = MOCK_CV.trim();
+        }
+
+        // GENERATE JD
+        document.getElementById('btn-generate').addEventListener('click', async () => {
+            const role = document.getElementById('jd-role').value;
+            const brief = document.getElementById('jd-brief').value;
+            const btn = document.getElementById('btn-generate');
+            const loader = document.getElementById('loader-jd');
+            const resultBox = document.getElementById('result-jd');
+
+            if (!role || !brief) return alert('Compila Ruolo e Brief!');
+
+            btn.disabled = true;
+            loader.style.display = 'flex';
+            resultBox.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/hiring/generate-jd', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ role, brief })
+                });
+                const data = await res.json();
+
+                resultBox.innerHTML = data.jd_text;
+                resultBox.style.display = 'block';
+
+                // Pre-fill next phase
+                document.getElementById('score-jd').value = data.jd_text;
+
+            } catch (err) {
+                alert('Errore API: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+
+        // SCORE CV
+        document.getElementById('btn-score').addEventListener('click', async () => {
+            const jdText = document.getElementById('score-jd').value;
+            const cvText = document.getElementById('score-cv').value;
+            const btn = document.getElementById('btn-score');
+            const loader = document.getElementById('loader-score');
+            const dash = document.getElementById('score-dashboard');
+
+            if (!jdText || !cvText) return alert('Compila sia la JD che il CV!');
+
+            btn.disabled = true;
+            loader.style.display = 'flex';
+            dash.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/hiring/score-cv', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jd_text: jdText, cv_text: cvText })
+                });
+                const data = await res.json();
+
+                // Render Dashboard
+                const score = data.match_score || 0;
+                document.getElementById('render-score').innerText = score;
+                const circle = document.getElementById('circle-score');
+                circle.className = 'score-circle';
+                if (score >= 80) { circle.style.borderColor = 'var(--color-green)'; }
+                else if (score >= 50) { circle.style.borderColor = 'var(--color-orange)'; }
+                else { circle.style.borderColor = 'var(--color-pink)'; }
+
+                document.getElementById('render-summary').innerHTML = `<strong>Sintesi:</strong> ${data.motivazione_sintesi}`;
+
+                const ulPros = document.getElementById('render-pros');
+                ulPros.innerHTML = (data.punti_forza || []).map(p => `<li>${p}</li>`).join('');
+
+                const ulCons = document.getElementById('render-cons');
+                ulCons.innerHTML = (data.gap_formativi || []).map(p => `<li>${p}</li>`).join('');
+
+                dash.style.display = 'block';
+
+            } catch (err) {
+                alert('Errore API: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

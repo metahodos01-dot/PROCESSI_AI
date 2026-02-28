@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="MetàHodòs Deep Dive: come funziona il processo HR & Hiring AI-Driven. Scopri ogni fase, chi fa cosa e il ROI reale.">
+    <title>HR & Hiring AI-Driven | MetàHodòs Deep Dive</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ─── CSS VARIABLES MetàHodòs ─────────────────────────────── */
+        :root {
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            --size-hero: 86px;
+            --size-h1: 56px;
+            --size-h2: 32px;
+            --size-body: 19px;
+            --size-subtitle: 22px;
+            --size-button: 20px;
+
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 40px;
+            --spacing-xl: 60px;
+            --spacing-section: 80px;
+
+            --radius-sm: 8px;
+            --radius-md: 15px;
+            --radius-lg: 20px;
+            --radius-pill: 30px;
+
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+            --shadow-button: 0 4px 12px rgba(248, 159, 90, 0.3);
+            --transition: 0.3s ease;
+        }
+
+        /* ─── RESET & BASE ─────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--size-body);
+            color: var(--color-gray-medium);
+            background: var(--color-white);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── BRAND DOTS ───────────────────────────────────────────── */
+        .brand-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 28px 0;
+        }
+
+        .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+
+        .dot-pink {
+            background: var(--color-pink);
+        }
+
+        .dot-orange {
+            background: var(--color-orange);
+        }
+
+        .dot-green {
+            background: var(--color-green);
+        }
+
+        /* ─── BUTTONS ──────────────────────────────────────────────── */
+        .btn-primary {
+            display: inline-block;
+            background: var(--color-orange);
+            color: var(--color-white);
+            font-family: var(--font-headings);
+            font-size: var(--size-button);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 48px;
+            border-radius: var(--radius-pill);
+            border: none;
+            box-shadow: var(--shadow-button);
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background: #FDB175;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(248, 159, 90, 0.45);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid var(--color-orange);
+            outline-offset: 3px;
+        }
+
+        /* ─── TITLE WITH LINE ──────────────────────────────────────── */
+        .title-with-line {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-gray-dark);
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        .title-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .title-underline-orange {
+            background: var(--color-orange);
+        }
+
+        .title-underline-pink {
+            background: var(--color-pink);
+        }
+
+        .title-underline-green {
+            background: var(--color-green);
+        }
+
+        /* ─── CARD ─────────────────────────────────────────────────── */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ─── BENEFIT ITEMS ─────────────────────────────────────────── */
+        .benefit-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 22px;
+        }
+
+        .benefit-icon {
+            font-size: 30px;
+            font-weight: 700;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .icon-pink {
+            color: var(--color-pink);
+        }
+
+        .icon-orange {
+            color: var(--color-orange);
+        }
+
+        .icon-green {
+            color: var(--color-green);
+        }
+
+        /* ─── FADE IN (Scroll Animation) ──────────────────────────── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── NAV ──────────────────────────────────────────────────── */
+        nav {
+            background: var(--color-gray-dark);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--font-headings);
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--color-white);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-brand span {
+            color: var(--color-orange);
+        }
+
+        .nav-back {
+            font-family: var(--font-headings);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            transition: color var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-back:hover {
+            color: var(--color-orange);
+        }
+
+        /* ─── HERO ──────────────────────────────────────────────────── */
+        .hero {
+            background: var(--color-gray-dark);
+            color: var(--color-white);
+            padding: var(--spacing-section) 20px 110px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: var(--color-white);
+            clip-path: ellipse(100% 100% at 50% 100%);
+        }
+
+        .hero-chip {
+            display: inline-block;
+            border: 1px solid rgba(248, 159, 90, 0.5);
+            background: rgba(248, 159, 90, 0.12);
+            color: var(--color-orange);
+            font-family: var(--font-headings);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 8px 22px;
+            border-radius: var(--radius-pill);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: var(--size-hero);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--color-orange);
+        }
+
+        .hero .subtitle {
+            font-family: var(--font-headings);
+            font-size: 28px;
+            font-weight: 400;
+            margin: 0 auto 40px;
+            max-width: 700px;
+            opacity: 0.85;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 52px;
+            }
+
+            .hero .subtitle {
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero h1 {
+                font-size: var(--size-hero);
+            }
+        }
+
+        /* ─── SECTION TITLES ─────────────────────────────────────── */
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-header h2 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-gray-dark);
+        }
+
+        .section-subtitle {
+            font-size: var(--size-subtitle);
+            color: var(--color-gray-medium);
+            margin-top: 12px;
+        }
+
+        /* ─── LEGENDA ────────────────────────────────────────────── */
+        .legend-section {
+            background: var(--color-gray-light);
+            padding: 36px 24px;
+            border-bottom: 2px solid var(--color-gray-border);
+        }
+
+        .legend-section .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .legend-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .legend-badge.ai {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 2px solid #3b82f6;
+        }
+
+        .legend-badge.human {
+            background: #fce7ef;
+            color: var(--color-pink);
+            border: 2px solid var(--color-pink);
+        }
+
+        .legend-badge.collab {
+            background: #ecfccb;
+            color: #4d7c0f;
+            border: 2px solid var(--color-green);
+        }
+
+        .legend-info strong {
+            font-size: 16px;
+            font-family: var(--font-headings);
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .legend-info span {
+            font-size: 14px;
+            color: var(--color-gray-medium);
+        }
+
+        /* ─── PROCESS PHASES ─────────────────────────────────────── */
+        .phase-section {
+            padding: var(--spacing-section) 0;
+        }
+
+        .phase-section.alt {
+            background: var(--color-gray-light);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .phase-number {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--color-gray-dark);
+            color: var(--color-orange);
+            font-family: var(--font-headings);
+            font-size: 30px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .phase-label {
+            font-family: var(--font-headings);
+            font-size: 38px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--color-gray-dark);
+        }
+
+        .phase-sub {
+            font-size: 17px;
+            color: var(--color-gray-medium);
+            margin-top: 4px;
+        }
+
+        /* ─── STEP CARDS GRID ────────────────────────────────────── */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 880px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step-card {
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 2px solid transparent;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.13);
+        }
+
+        .step-card.ai {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .step-card.human {
+            background: #fce7ef;
+            border-color: var(--color-pink);
+        }
+
+        .step-card.collab {
+            background: #ecfccb;
+            border-color: var(--color-green);
+        }
+
+        .step-type {
+            font-family: var(--font-headings);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .step-card.ai .step-type {
+            color: #1d4ed8;
+        }
+
+        .step-card.human .step-type {
+            color: var(--color-pink);
+        }
+
+        .step-card.collab .step-type {
+            color: #4d7c0f;
+        }
+
+        .step-card h3 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h2);
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .step-card .tool-pill {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.08);
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 14px;
+            margin-top: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .step-card.ai .tool-pill {
+            color: #1d4ed8;
+        }
+
+        .step-card.human .tool-pill {
+            color: var(--color-pink);
+        }
+
+        .step-card.collab .tool-pill {
+            color: #4d7c0f;
+        }
+
+        /* ─── SECTION DIVIDER ────────────────────────────────────── */
+        .phase-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+            font-family: var(--font-headings);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-gray-medium);
+        }
+
+        .phase-divider::before,
+        .phase-divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: var(--color-gray-border);
+            border-radius: 2px;
+        }
+
+        /* ─── KPI SECTION ───────────────────────────────────────── */
+        .kpi-section {
+            background: var(--color-gray-dark);
+            padding: var(--spacing-section) 24px;
+            text-align: center;
+        }
+
+        .kpi-section h2 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--color-white);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .kpi-section h2 em {
+            font-style: normal;
+            color: var(--color-orange);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 36px 20px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-headings);
+            font-size: 58px;
+            font-weight: 800;
+            color: var(--color-orange);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .kpi-label {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.5;
+        }
+
+        .kpi-label strong {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ─── TIMELINE ──────────────────────────────────────────── */
+        .timeline-section {
+            padding: var(--spacing-section) 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 58px;
+            margin-top: var(--spacing-lg);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(to bottom, #3b82f6, var(--color-green), var(--color-pink), var(--color-orange));
+            border-radius: 4px;
+        }
+
+        .tl-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid var(--color-white);
+        }
+
+        .tl-item.ai ::before {
+            background: #3b82f6;
+            box-shadow: 0 0 0 3px #3b82f6;
+        }
+
+        .tl-item.human ::before {
+            background: var(--color-pink);
+            box-shadow: 0 0 0 3px var(--color-pink);
+        }
+
+        .tl-item.collab::before {
+            background: var(--color-green);
+            box-shadow: 0 0 0 3px var(--color-green);
+        }
+
+        .tl-item.ai .tl-card {
+            border-left-color: #3b82f6;
+        }
+
+        .tl-item.human .tl-card {
+            border-left-color: var(--color-pink);
+        }
+
+        .tl-item.collab .tl-card {
+            border-left-color: var(--color-green);
+        }
+
+        .tl-card {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 22px 26px;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid transparent;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            transition: box-shadow var(--transition);
+        }
+
+        .tl-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .tl-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .tl-item.ai .tl-icon {
+            background: #dbeafe;
+        }
+
+        .tl-item.human .tl-icon {
+            background: #fce7ef;
+        }
+
+        .tl-item.collab .tl-icon {
+            background: #ecfccb;
+        }
+
+        .tl-actor {
+            font-family: var(--font-headings);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .tl-item.ai .tl-actor {
+            color: #1d4ed8;
+        }
+
+        .tl-item.human .tl-actor {
+            color: var(--color-pink);
+        }
+
+        .tl-item.collab .tl-actor {
+            color: #4d7c0f;
+        }
+
+        .tl-card h4 {
+            font-family: var(--font-headings);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            margin-bottom: 6px;
+        }
+
+        .tl-card p {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* This fix is needed to make the dot node render properly */
+        .tl-item.ai::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            box-shadow: 0 0 0 3px #3b82f6;
+            border: 3px solid #fff;
+        }
+
+        .tl-item.human::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-pink);
+            box-shadow: 0 0 0 3px var(--color-pink);
+            border: 3px solid #fff;
+        }
+
+        .tl-item.collab::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-green);
+            box-shadow: 0 0 0 3px var(--color-green);
+            border: 3px solid #fff;
+        }
+
+        /* ─── CTA FINAL ─────────────────────────────────────────── */
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-orange), #e07820);
+            padding: var(--spacing-section) 24px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--color-white);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: var(--size-subtitle);
+            color: rgba(255, 255, 255, 0.88);
+            max-width: 580px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+
+        .btn-white {
+            display: inline-block;
+            background: var(--color-white);
+            color: var(--color-orange);
+            font-family: var(--font-headings);
+            font-size: var(--size-button);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 18px 50px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav role="navigation" aria-label="Navigazione principale">
+        <div class="container">
+            <a href="/static/presentation.html" class="nav-brand"
+                aria-label="Torna alla home">MetàHodo<span>s</span></a>
+            <a href="/static/presentation.html" class="nav-back" aria-label="Torna alla presentazione">← Tutti i
+                Processi</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero" role="banner">
+        <div class="container">
+            <div class="hero-chip" aria-label="Processo numero 12">Deep Dive | Processo #12</div>
+            <h1>HR &amp; <span>HIRING</span><br>AI-DRIVEN</h1>
+            <p class="subtitle" role="doc-subtitle">Il nuovo paradigma del recruiting: la macchina lavora sui dati,
+                l'umano guida la relazione e la decisione finale.</p>
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+                <a href="#flusso" class="btn-primary" aria-label="Scopri il flusso completo">SCOPRI IL FLUSSO</a>
+                <a href="/static/hiring-demo.html" class="btn-white" aria-label="Prova la Demo Web AI"
+                    style="padding: 16px 48px;">PROVA LA DEMO AI →</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- LEGENDA -->
+    <section class="legend-section" aria-label="Legenda ruoli">
+        <div class="container">
+            <div class="legend-item">
+                <div class="legend-badge ai" aria-hidden="true">🤖</div>
+                <div class="legend-info">
+                    <strong style="color:#1d4ed8">AI Automatica</strong>
+                    <span>Agente lavora autonomamente</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-badge human" aria-hidden="true">👤</div>
+                <div class="legend-info">
+                    <strong style="color:var(--color-pink)">Solo Umano</strong>
+                    <span>Decisione strategica o relazionale</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-badge collab" aria-hidden="true">🤝</div>
+                <div class="legend-info">
+                    <strong style="color:#4d7c0f">Collaborazione</strong>
+                    <span>AI propone, Umano approva</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 1 -->
+    <section class="phase-section fade-in" id="fase-1" aria-labelledby="fase1-title">
+        <div class="container">
+            <div class="phase-header">
+                <div class="phase-number" aria-hidden="true">1</div>
+                <div>
+                    <p class="phase-label" id="fase1-title">Definizione del Profilo</p>
+                    <p class="phase-sub">Chi stiamo cercando e perché? Il brief parte dall'umano.</p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card human">
+                    <div class="step-type">👤 Solo Umano</div>
+                    <h3>Briefing Strategico</h3>
+                    <p>HR e Team Lead definiscono competenze irrinunciabili, cultura del team e impatto atteso a 6 mesi.
+                        È un confronto umano, non delegabile.</p>
+                    <span class="tool-pill">📋 Slack / Notion</span>
+                </div>
+                <div class="step-card collab">
+                    <div class="step-type">🤝 Collaborazione</div>
+                    <h3>Generazione Job Description</h3>
+                    <p>Il recruiter parla o scrive il brief all'agente. L'AI propone 3 versioni ottimizzate per
+                        attrattività, inclusività e SEO su LinkedIn.</p>
+                    <span class="tool-pill">✍️ Agente AI Copywriter</span>
+                </div>
+                <div class="step-card human">
+                    <div class="step-type">👤 Solo Umano</div>
+                    <h3>Approvazione e Pubblicazione</h3>
+                    <p>Il recruiter sceglie e personalizza con il tono MetàHodòs, poi pubblica su tutte le piattaforme
+                        con un click dalla dashboard.</p>
+                    <span class="tool-pill">✅ Decisione Umana</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="phase-divider" aria-hidden="true">↓ Fase 2: Screening</div>
+
+    <!-- FASE 2 -->
+    <section class="phase-section alt fade-in" aria-labelledby="fase2-title">
+        <div class="container">
+            <div class="phase-header">
+                <div class="phase-number" aria-hidden="true">2</div>
+                <div>
+                    <p class="phase-label" id="fase2-title">Raccolta e Scoring CV</p>
+                    <p class="phase-sub">L'AI ingurgita centinaia di candidature. Il recruiter riceve una shortlist.</p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Raccolta Massiva</h3>
+                    <p>L'agente monitora la job board in loop. Per ogni candidatura normalizza il PDF/DOCX in un record
+                        strutturato nel DB in meno di 2 secondi.</p>
+                    <span class="tool-pill">⚡ Agno + File Parser</span>
+                </div>
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Match Score Semantico</h3>
+                    <p>Analisi pesata su: esperienze chiave, skill tecniche, gap formativo, coerenza del percorso e
+                        potenziale di crescita. Ordine decrescente in <strong>secondi</strong>.</p>
+                    <span class="tool-pill">📊 LLM Scoring Engine</span>
+                </div>
+                <div class="step-card collab">
+                    <div class="step-type">🤝 Collaborazione</div>
+                    <h3>Shortlist su Dashboard</h3>
+                    <p>Il recruiter apre la dashboard e trova i top 10 già raggruppati per score. Sposta candidati tra
+                        categorie, modifica i pesi dei criteri in tempo reale.</p>
+                    <span class="tool-pill">📋 Web Dashboard</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="phase-divider" aria-hidden="true">↓ Fase 3: Pre-Screening</div>
+
+    <!-- FASE 3 -->
+    <section class="phase-section fade-in" aria-labelledby="fase3-title">
+        <div class="container">
+            <div class="phase-header">
+                <div class="phase-number" aria-hidden="true">3</div>
+                <div>
+                    <p class="phase-label" id="fase3-title">Primo Contatto Asincrono</p>
+                    <p class="phase-sub">L'AI gestisce i contatti; il recruiter entra solo quando il candidato è già
+                        qualificato.</p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Email Personalizzate</h3>
+                    <p>Invio automatico ai candidati shortlistati con riferimenti specifici al loro CV. Include link a 5
+                        domande di pre-screening via form asincrono.</p>
+                    <span class="tool-pill">📧 Agente Email Sender</span>
+                </div>
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Analisi delle Risposte</h3>
+                    <p>Le risposte vengono analizzate per coerenza, motivazione e cultural fit. Il punteggio si aggiorna
+                        e la lista si riordina automaticamente.</p>
+                    <span class="tool-pill">🧠 LLM Analysis</span>
+                </div>
+                <div class="step-card human">
+                    <div class="step-type">👤 Solo Umano</div>
+                    <h3>Validazione Finale</h3>
+                    <p>Il recruiter legge i riassunti AI dei profili qualificati, verifica i borderline e sceglie chi va
+                        al colloquio. Zero lettura manuale di 500 PDF.</p>
+                    <span class="tool-pill">🎯 Decisione Strategica</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="phase-divider" aria-hidden="true">↓ Fase 4: Il Colloquio</div>
+
+    <!-- FASE 4 -->
+    <section class="phase-section alt fade-in" aria-labelledby="fase4-title">
+        <div class="container">
+            <div class="phase-header">
+                <div class="phase-number" aria-hidden="true">4</div>
+                <div>
+                    <p class="phase-label" id="fase4-title">Il Colloquio: L'Umano al Centro</p>
+                    <p class="phase-sub">L'AI prepara. L'umano conduce. La relazione non si delega.</p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card collab">
+                    <div class="step-type">🤝 Collaborazione</div>
+                    <h3>Dossier Pre-Colloquio</h3>
+                    <p>L'agente prepara un documento personalizzato: punti di forza/debolezza emersi, 5 domande
+                        consigliate per testare i gap, topic relazionali da approfondire.</p>
+                    <span class="tool-pill">📑 Agente preparatorio</span>
+                </div>
+                <div class="step-card human">
+                    <div class="step-type">👤 Solo Umano</div>
+                    <h3>Colloquio Attitudinale</h3>
+                    <p>Ascolto attivo, empatia, lettura del non-verbale. Il recruiter esplora motivazione autentica e
+                        fitting culturale — aree impossibili da automatizzare.</p>
+                    <span class="tool-pill">💬 Human Interaction</span>
+                </div>
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Note e Scheduling</h3>
+                    <p>L'AI trascrive le note vocali del recruiter, crea la scheda di valutazione e pianifica il secondo
+                        step con il Team Leader aggiornando il calendario.</p>
+                    <span class="tool-pill">🗓️ Agno + Calendar API</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="phase-divider" aria-hidden="true">↓ Fase 5: Offerta e Onboarding</div>
+
+    <!-- FASE 5 -->
+    <section class="phase-section fade-in" aria-labelledby="fase5-title">
+        <div class="container">
+            <div class="phase-header">
+                <div class="phase-number" aria-hidden="true">5</div>
+                <div>
+                    <p class="phase-label" id="fase5-title">Offerta e Onboarding</p>
+                    <p class="phase-sub">La trattativa resta umana. L'AI prepara tutto e automatizza ogni burocrazia.
+                    </p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card collab">
+                    <div class="step-type">🤝 Collaborazione</div>
+                    <h3>Redazione Offerta Economica</h3>
+                    <p>L'AI analizza gli stipendi di mercato per ruolo e seniority. Propone due scenari (base / senior).
+                        Il recruiter personalizza la parte relazionale e firma.</p>
+                    <span class="tool-pill">💰 Salary Benchmarking AI</span>
+                </div>
+                <div class="step-card human">
+                    <div class="step-type">👤 Solo Umano</div>
+                    <h3>Negoziazione e Accordo</h3>
+                    <p>Benefit, flessibilità, aspettative, feeling. Il dialogo finale tra persone è l'unico momento in
+                        cui la firma diventa scelta condivisa. L'AI non entra in questa stanza.</p>
+                    <span class="tool-pill">🤝 Human Relationship</span>
+                </div>
+                <div class="step-card ai">
+                    <div class="step-type">🤖 AI Automatica</div>
+                    <h3>Onboarding Day 1</h3>
+                    <p>Firma ricevuta: l'agente crea account email, Slack, GitHub, invia il Welcome Kit e pianifica le
+                        sessioni onboarding nelle prime 2 settimane. Automaticamente.</p>
+                    <span class="tool-pill">⚙️ Workflow Agno</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KPI -->
+    <section class="kpi-section fade-in" aria-labelledby="kpi-title">
+        <div class="container">
+            <h2 id="kpi-title">L'IMPATTO <em>MISURABILE</em></h2>
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">-60%</div>
+                    <div class="kpi-label">Riduzione del <strong>Time-to-Hire</strong><br>da 45 a 18 giorni</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">500+</div>
+                    <div class="kpi-label"><strong>CV analizzati</strong> in poche ore<br>invece di settimane</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">+40%</div>
+                    <div class="kpi-label">Qualità del <strong>candidato selezionato</strong><br>bias cognitivi ridotti
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">0h</div>
+                    <div class="kpi-label">Ore spese in <strong>data entry</strong><br>e scheduling manuale</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE FLUSSO COMPLETO -->
+    <section class="timeline-section fade-in" id="flusso" aria-labelledby="flow-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="title-with-line" id="flow-title">
+                    Flusso Completo
+                    <span class="title-underline title-underline-orange"></span>
+                </h2>
+                <p class="section-subtitle">Dalla Job Description al primo giorno in ufficio in un'unica timeline.</p>
+            </div>
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+
+            <div class="timeline" role="list">
+                <div class="tl-item human" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">💡</div>
+                        <div>
+                            <div class="tl-actor">👤 HR Manager</div>
+                            <h4>Briefing del Ruolo</h4>
+                            <p>30 minuti con il Team Lead. Definisce priorità, competenze irrinunciabili e contesto del
+                                team.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item collab" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">✍️</div>
+                        <div>
+                            <div class="tl-actor">🤝 Umano + AI</div>
+                            <h4>Draft Job Description</h4>
+                            <p>AI scrive 3 varianti ottimizzate. L'umano seleziona, ritocca il tono di MetàHodòs e
+                                lancia la pubblicazione.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item ai" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">📥</div>
+                        <div>
+                            <div class="tl-actor">🤖 AI Agent</div>
+                            <h4>Raccolta e Parsing CV</h4>
+                            <p>In modo completamente automatico, 500+ CV vengono raccolti, normalizzati e strutturati in
+                                un database entro 24h dalla pubblicazione.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item ai" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">📊</div>
+                        <div>
+                            <div class="tl-actor">🤖 Scoring Engine AI</div>
+                            <h4>Calcolo Match Score</h4>
+                            <p>Ogni candidato riceve un punteggio 0–100 pesato su skill, percorso, potenziale e cultural
+                                fit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item ai" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">📧</div>
+                        <div>
+                            <div class="tl-actor">🤖 AI Agent</div>
+                            <h4>Pre-Screening Automatico</h4>
+                            <p>Top 20% riceve email personalizzata con link a 5 domande asincrone. Risposte analizzate e
+                                punteggio aggiornato automaticamente.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item collab" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">🔍</div>
+                        <div>
+                            <div class="tl-actor">🤝 Umano + AI</div>
+                            <h4>Validazione Shortlist</h4>
+                            <p>Il recruiter apre la dashboard con profili già analizzati. In 30 minuti valida i 5–10 da
+                                portare al colloquio.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item human" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">💬</div>
+                        <div>
+                            <div class="tl-actor">👤 Recruiter + Team Leader</div>
+                            <h4>Colloquio Attitudinale</h4>
+                            <p>Il recruiter esplora motivazione, visione e fitting culturale. Ha già sul tablet il
+                                dossier candidato preparato dall'AI.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item human" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">🤝</div>
+                        <div>
+                            <div class="tl-actor">👤 HR + Candidato</div>
+                            <h4>Negoziazione e Offerta</h4>
+                            <p>L'AI ha preparato i numeri. La firma avviene tra persone, nella relazione.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item ai" role="listitem">
+                    <div class="tl-card">
+                        <div class="tl-icon" aria-hidden="true">🚀</div>
+                        <div>
+                            <div class="tl-actor">🤖 AI Agent</div>
+                            <h4>Onboarding Digitale Automatico</h4>
+                            <p>In pochi minuti dalla firma: account creati, Welcome Kit inviato, calendario onboarding
+                                configurato. Il nuovo collaboratore inizia già integrato.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINALE -->
+    <section class="cta-section" aria-labelledby="cta-title">
+        <div class="container">
+            <h2 id="cta-title">Vuoi vedere gli altri 11 processi?</h2>
+            <p>Torna alla presentazione completa per esplorare ogni trasformazione AI-Driven della tua azienda.</p>
+            <a href="/static/presentation.html" class="btn-white">← Torna alla Home</a>
+        </div>
+    </section>
+
+    <!-- SCROLL ANIMATION JS -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+
+</html>

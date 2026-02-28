@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Aziendale — Assistente AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-orange: #F89F5A;
+      --color-pink: #f06681;
+      --color-green: #8CC63F;
+      --color-gray-dark: #3C3C3C;
+      --color-gray-medium: #4A4A4A;
+      --color-gray-light: #F5F5F5;
+      --color-gray-border: #E0E0E0;
+      --color-white: #FFFFFF;
+      --font-headings: 'Saira Condensed', sans-serif;
+      --font-body: 'Lato', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 15px;
+      --radius-lg: 20px;
+      --radius-pill: 30px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 5px 20px rgba(0,0,0,0.1);
+      --shadow-focus: 0 0 0 3px rgba(248,159,90,0.3);
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-gray-light);
+      color: var(--color-gray-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────── */
+    .navbar {
+      background: var(--color-gray-dark);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .navbar-brand {
+      font-family: var(--font-headings);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-white);
+      letter-spacing: 1px;
+    }
+    .navbar-brand span { color: var(--color-orange); }
+    .brand-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    .dot-pink { background: var(--color-pink); }
+    .dot-orange { background: var(--color-orange); }
+    .dot-green { background: var(--color-green); }
+
+    /* ─── TABS ───────────────────────────────────────── */
+    .tabs-wrapper {
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-border);
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 24px;
+    }
+    .tab-btn {
+      font-family: var(--font-headings);
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: none;
+      border: none;
+      padding: 18px 32px;
+      cursor: pointer;
+      color: var(--color-gray-medium);
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+    }
+    .tab-btn:hover { color: var(--color-orange); }
+    .tab-btn:focus-visible { outline: none; box-shadow: inset var(--shadow-focus); }
+    .tab-btn.active {
+      color: var(--color-orange);
+      border-bottom-color: var(--color-orange);
+    }
+
+    /* ─── MAIN CONTAINER ─────────────────────────────── */
+    main { flex: 1; padding: 32px 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ─── CHAT PANEL ─────────────────────────────────── */
+    .chat-container {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      height: 65vh;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: var(--color-gray-dark);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-header-title {
+      font-family: var(--font-headings);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-white);
+      letter-spacing: 0.5px;
+    }
+    .status-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--color-green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .messages::-webkit-scrollbar { width: 6px; }
+    .messages::-webkit-scrollbar-track { background: var(--color-gray-light); }
+    .messages::-webkit-scrollbar-thumb { background: var(--color-gray-border); border-radius: 3px; }
+
+    .message {
+      max-width: 78%;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      line-height: 1.6;
+      animation: fadeUp 0.3s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .message.user {
+      background: var(--color-orange);
+      color: var(--color-white);
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+    .message.assistant {
+      background: var(--color-gray-light);
+      color: var(--color-gray-dark);
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+      border-left: 3px solid var(--color-orange);
+    }
+    .message.assistant.thinking {
+      border-left-color: var(--color-gray-border);
+      color: #999;
+      font-style: italic;
+    }
+    .message pre { white-space: pre-wrap; font-family: var(--font-body); }
+
+    .chat-input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--color-gray-border);
+      display: flex;
+      gap: 12px;
+      background: var(--color-white);
+    }
+    .chat-input {
+      flex: 1;
+      padding: 14px 18px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      border: 1px solid var(--color-gray-border);
+      border-radius: var(--radius-pill);
+      transition: var(--transition);
+      outline: none;
+      resize: none;
+      line-height: 1.4;
+    }
+    .chat-input:focus {
+      border-color: var(--color-orange);
+      box-shadow: var(--shadow-focus);
+    }
+    .btn-send {
+      background: var(--color-orange);
+      color: var(--color-white);
+      font-family: var(--font-headings);
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 0 28px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(248,159,90,0.3);
+      white-space: nowrap;
+    }
+    .btn-send:hover:not(:disabled) {
+      background: #FDB175;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(248,159,90,0.4);
+    }
+    .btn-send:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+    .btn-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .suggestions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .suggestion-chip {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-border);
+      border-radius: var(--radius-pill);
+      padding: 8px 18px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--color-gray-medium);
+    }
+    .suggestion-chip:hover, .suggestion-chip:focus-visible {
+      border-color: var(--color-orange);
+      color: var(--color-orange);
+      background: rgba(248,159,90,0.05);
+      outline: none;
+    }
+
+    /* ─── UPLOAD PANEL ───────────────────────────────── */
+    .upload-section-title {
+      font-family: var(--font-headings);
+      font-size: 38px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-gray-dark);
+      margin-bottom: 6px;
+    }
+    .upload-section-sub {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-gray-medium);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .drop-zone {
+      border: 2px dashed var(--color-gray-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-white);
+      padding: 60px 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--color-orange);
+      background: rgba(248,159,90,0.04);
+    }
+    .drop-zone-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .drop-zone-title {
+      font-family: var(--font-headings);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-gray-dark);
+      margin-bottom: 8px;
+    }
+    .drop-zone-sub {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: #999;
+    }
+    .drop-zone-sub strong { color: var(--color-orange); }
+    #fileInput { display: none; }
+
+    .btn-upload {
+      background: var(--color-orange);
+      color: var(--color-white);
+      font-family: var(--font-headings);
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 16px 48px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(248,159,90,0.3);
+      margin-top: 28px;
+    }
+    .btn-upload:hover:not(:disabled) {
+      background: #FDB175;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(248,159,90,0.4);
+    }
+    .btn-upload:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+    .btn-upload:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ─── PROGRESS ───────────────────────────────────── */
+    .progress-container { margin-top: 20px; display: none; }
+    .progress-bar-wrap {
+      background: var(--color-gray-border);
+      border-radius: var(--radius-pill);
+      height: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-orange), var(--color-pink));
+      border-radius: var(--radius-pill);
+      width: 0;
+      transition: width 0.4s ease;
+    }
+
+    /* ─── TOAST ──────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-white);
+      box-shadow: var(--shadow-md);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--color-green); }
+    .toast.error { background: var(--color-pink); }
+
+    /* ─── DOCUMENTS LIST ─────────────────────────────── */
+    .docs-section {
+      margin-top: 40px;
+    }
+    .docs-title {
+      font-family: var(--font-headings);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--color-gray-dark);
+      margin-bottom: 16px;
+      padding-bottom: 4px;
+      border-bottom: 3px solid var(--color-orange);
+      display: inline-block;
+    }
+    .docs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .doc-item {
+      background: var(--color-white);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .doc-item:hover { transform: translateX(4px); }
+    .doc-icon {
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .doc-name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      color: var(--color-gray-dark);
+      font-size: 15px;
+    }
+    .doc-size {
+      font-size: 13px;
+      color: #999;
+      margin-left: auto;
+    }
+    .docs-empty {
+      color: #bbb;
+      font-size: 15px;
+      font-style: italic;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--color-gray-dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 20px;
+      font-family: var(--font-body);
+      font-size: 13px;
+    }
+    footer strong { color: var(--color-orange); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 600px) {
+      main { padding: 20px 12px; }
+      .chat-container { height: 70vh; }
+      .btn-send { padding: 0 18px; font-size: 16px; }
+      .drop-zone { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <span class="navbar-brand">RAG <span>Aziendale</span></span>
+    <div class="brand-dots">
+      <span class="dot dot-pink"></span>
+      <span class="dot dot-orange"></span>
+      <span class="dot dot-green"></span>
+    </div>
+  </nav>
+
+  <!-- TABS -->
+  <div class="tabs-wrapper" role="tablist" aria-label="Sezioni Principali">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-chat" onclick="switchTab('chat', this)">💬 Assistente</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-upload" onclick="switchTab('upload', this)">📂 Documenti</button>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ─── TAB CHAT ─────────────────────────────────── -->
+    <div id="tab-chat" class="tab-panel active">
+
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="status-dot"></div>
+          <span class="chat-header-title">Assistente AI Aziendale</span>
+        </div>
+        <div class="messages" id="messages" role="log" aria-live="polite">
+          <div class="message assistant">
+            Ciao! 👋 Sono il tuo <strong>Assistente AI Aziendale</strong>.<br>
+            Posso rispondere a domande basandomi sulla documentazione caricata.<br>
+            Cosa vuoi sapere?
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <textarea id="chatInput" class="chat-input" rows="1"
+            placeholder="Scrivi una domanda sui tuoi documenti..."
+            aria-label="Campo inserimento messaggio"
+            onkeydown="handleKey(event)"></textarea>
+          <button class="btn-send" id="sendBtn" aria-label="Invia messaggio" onclick="sendMessage()">Invia</button>
+        </div>
+      </div>
+
+      <div class="suggestions" id="suggestions">
+        <span class="suggestion-chip" tabindex="0" role="button" onclick="useSuggestion(this)" onkeydown="if(event.key==='Enter') useSuggestion(this)">Quanti giorni di ferie ho?</span>
+        <span class="suggestion-chip" tabindex="0" role="button" onclick="useSuggestion(this)" onkeydown="if(event.key==='Enter') useSuggestion(this)">Chi è il responsabile HR?</span>
+        <span class="suggestion-chip" tabindex="0" role="button" onclick="useSuggestion(this)" onkeydown="if(event.key==='Enter') useSuggestion(this)">Qual è il prodotto con più fatturato?</span>
+        <span class="suggestion-chip" tabindex="0" role="button" onclick="useSuggestion(this)" onkeydown="if(event.key==='Enter') useSuggestion(this)">Come funziona lo smart working?</span>
+      </div>
+
+    </div>
+
+    <!-- ─── TAB UPLOAD ────────────────────────────────── -->
+    <div id="tab-upload" class="tab-panel" role="tabpanel">
+
+      <h2 class="upload-section-title">Carica Documenti</h2>
+      <p class="upload-section-sub">
+        Aggiungi PDF, fogli Excel, CSV o documenti Word alla Knowledge Base aziendale.<br>
+        L'assistente potrà rispondere a domande basandosi sul loro contenuto.
+      </p>
+
+      <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Trascina o clicca per caricare un file"
+        onclick="document.getElementById('fileInput').click()"
+        onkeydown="if(event.key==='Enter') document.getElementById('fileInput').click()"
+        ondragover="handleDragOver(event)"
+        ondragleave="handleDragLeave(event)"
+        ondrop="handleDrop(event)">
+        <span class="drop-zone-icon" aria-hidden="true">📄</span>
+        <div class="drop-zone-title">Trascina qui il file</div>
+        <div class="drop-zone-sub">
+          oppure <strong>clicca per sfogliare</strong><br>
+          PDF · Excel · CSV · DOCX · TXT
+        </div>
+        <input type="file" id="fileInput" accept=".pdf,.xlsx,.xls,.csv,.docx,.txt"
+          aria-hidden="true"
+          onchange="handleFileSelect(event)">
+      </div>
+
+      <div id="selectedFileInfo" style="margin-top:16px; font-family:var(--font-body); font-size:15px; color:var(--color-gray-medium); display:none;">
+        📎 <strong id="selectedFileName"></strong>
+      </div>
+
+      <div>
+        <button class="btn-upload" id="uploadBtn" onclick="uploadFile()" disabled>
+          Indicizza Documento
+        </button>
+      </div>
+
+      <div class="progress-container" id="progressContainer" aria-live="assertive">
+        <p style="font-family:var(--font-body); font-size:14px; color:#999;" id="progressLabel">Caricamento in corso...</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+
+      <!-- Documenti esistenti -->
+      <div class="docs-section">
+        <h3 class="docs-title">Documenti Indicizzati</h3>
+        <div class="docs-list" id="docsList" role="list" aria-label="Elenco documenti indicizzati">
+          <div class="docs-empty" role="listitem">Caricamento lista documenti...</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Powered by <strong>Agno</strong> · Neon Postgres · OpenAI
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    const API = '';  // same origin
+    let selectedFile = null;
+
+    // ─── TABS ──────────────────────────────────────────
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      if (name === 'upload') loadDocuments();
+    }
+
+    // ─── TOAST ─────────────────────────────────────────
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
+
+    // ─── CHAT ──────────────────────────────────────────
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function useSuggestion(el) {
+      document.getElementById('chatInput').value = el.textContent;
+      sendMessage();
+    }
+
+    function addMessage(text, role) {
+      const box = document.getElementById('messages');
+      const msg = document.createElement('div');
+      msg.className = 'message ' + role;
+
+      // Render basic markdown (bold, italic, code)
+      let html = text
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br>');
+      msg.innerHTML = html;
+      box.appendChild(msg);
+      box.scrollTop = box.scrollHeight;
+      return msg;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const btn = document.getElementById('sendBtn');
+      btn.disabled = true;
+      document.getElementById('suggestions').style.display = 'none';
+
+      addMessage(text, 'user');
+      input.value = '';
+
+      // Thinking placeholder
+      const box = document.getElementById('messages');
+      const thinking = document.createElement('div');
+      thinking.className = 'message assistant thinking';
+      thinking.innerHTML = '⏳ Sto cercando nei documenti...';
+      box.appendChild(thinking);
+      box.scrollTop = box.scrollHeight;
+
+      try {
+        const res = await fetch(API + '/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        thinking.remove();
+        if (res.ok) {
+          addMessage(data.response || '─ Nessuna risposta ricevuta.', 'assistant');
+        } else {
+          addMessage('❌ Errore: ' + (data.detail || 'Qualcosa è andato storto.'), 'assistant');
+        }
+      } catch (err) {
+        thinking.remove();
+        addMessage('❌ Impossibile contattare il server. Assicurati che il backend sia attivo.', 'assistant');
+      }
+
+      btn.disabled = false;
+      input.focus();
+    }
+
+    // ─── UPLOAD ────────────────────────────────────────
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('dropZone').classList.add('dragover');
+    }
+    function handleDragLeave() {
+      document.getElementById('dropZone').classList.remove('dragover');
+    }
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('dropZone').classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file) setSelectedFile(file);
+    }
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) setSelectedFile(file);
+    }
+    function setSelectedFile(file) {
+      selectedFile = file;
+      document.getElementById('selectedFileName').textContent = file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)';
+      document.getElementById('selectedFileInfo').style.display = 'block';
+      document.getElementById('uploadBtn').disabled = false;
+    }
+
+    async function uploadFile() {
+      if (!selectedFile) return;
+
+      const btn = document.getElementById('uploadBtn');
+      btn.disabled = true;
+      const progress = document.getElementById('progressContainer');
+      const bar = document.getElementById('progressBar');
+      const label = document.getElementById('progressLabel');
+
+      progress.style.display = 'block';
+      label.textContent = 'Caricamento in corso...';
+      bar.style.width = '30%';
+      bar.setAttribute('aria-valuenow', '30');
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      try {
+        bar.style.width = '60%';
+        bar.setAttribute('aria-valuenow', '60');
+        label.textContent = 'Indicizzazione nel database...';
+        const res = await fetch(API + '/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        bar.style.width = '100%';
+        bar.setAttribute('aria-valuenow', '100');
+        if (res.ok) {
+          label.textContent = '✅ Completato!';
+          showToast(data.message, 'success');
+          loadDocuments();
+          selectedFile = null;
+          document.getElementById('selectedFileInfo').style.display = 'none';
+          document.getElementById('fileInput').value = '';
+        } else {
+          label.textContent = '❌ Errore';
+          showToast('Errore: ' + (data.detail || 'Upload fallito'), 'error');
+        }
+      } catch (err) {
+        label.textContent = '❌ Errore di connessione';
+        showToast('Impossibile contattare il server.', 'error');
+      }
+
+      setTimeout(() => {
+        progress.style.display = 'none';
+        bar.style.width = '0';
+        btn.disabled = false;
+      }, 2000);
+    }
+
+    // ─── DOCUMENTS LIST ─────────────────────────────────
+    const EXT_ICONS = {
+      '.pdf': '📕', '.xlsx': '📗', '.xls': '📗',
+      '.docx': '📘', '.txt': '📄', '.csv': '📊'
+    };
+
+    async function loadDocuments() {
+      const list = document.getElementById('docsList');
+      list.innerHTML = '<div class="docs-empty">Caricamento...</div>';
+      try {
+        const res = await fetch(API + '/api/documents');
+        const data = await res.json();
+        if (!data.documents.length) {
+          list.innerHTML = '<div class="docs-empty" role="listitem">Nessun documento ancora indicizzato.</div>';
+          return;
+        }
+        list.innerHTML = '';
+        data.documents.forEach(doc => {
+          const icon = EXT_ICONS[doc.ext] || '📄';
+          const item = document.createElement('div');
+          item.className = 'doc-item';
+          item.setAttribute('role', 'listitem');
+          item.innerHTML = `
+            <span class="doc-icon" aria-hidden="true">${icon}</span>
+            <span class="doc-name">${doc.name}</span>
+            <span class="doc-size">${doc.size_kb} KB</span>
+          `;
+          list.appendChild(item);
+        });
+      } catch (e) {
+        list.innerHTML = '<div class="docs-empty" role="listitem">Errore nel caricamento della lista.</div>';
+      }
+    }
+  </script>
+</body>
+</html>

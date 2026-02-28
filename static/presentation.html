@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Presentazione dei 12 processi aziendali rivoluzionati dall'AI: azzeramento data entry, aumento fatturato e scalabilità a costi fissi.">
+    <title>Enterprise AI Transformation | MetàHodos Style</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* Colori Brand MetàHodos */
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            /* Tipografia */
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            /* Font Sizes Responsive */
+            --size-hero: 48px;
+            --size-h1: 38px;
+            --size-h2: 24px;
+            --size-body: 19px;
+            --size-subtitle: 22px;
+            --size-button: 18px;
+
+            /* Spacing */
+            --spacing-md: 24px;
+            --spacing-lg: 40px;
+            --spacing-section: 80px;
+
+            /* BorderRadius */
+            --radius-md: 15px;
+            --radius-lg: 20px;
+            --radius-pill: 30px;
+
+            /* State Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 40px rgba(0, 0, 0, 0.15);
+            --shadow-button: 0 4px 12px rgba(248, 159, 90, 0.3);
+
+            /* Transitions Smooth */
+            --transition: 0.3s ease;
+        }
+
+        *:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 159, 90, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --size-hero: 64px;
+                --size-h1: 48px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --size-hero: 86px;
+                --size-h1: 56px;
+                --size-h2: 32px;
+                --size-button: 20px;
+            }
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--size-body);
+            background-color: var(--color-gray-light);
+            color: var(--color-gray-medium);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: var(--color-gray-dark);
+            color: var(--color-white);
+            padding: calc(var(--spacing-section) * 1.5) 20px calc(var(--spacing-section) * 2.5);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: var(--color-gray-light);
+            clip-path: ellipse(100% 100% at 50% 100%);
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: var(--size-hero);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero .subtitle {
+            font-family: var(--font-headings);
+            font-size: 34px;
+            font-weight: 400;
+            margin: 0 auto var(--spacing-lg) auto;
+            color: var(--color-white);
+            max-width: 900px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .hero .subtitle {
+                font-size: 24px;
+            }
+        }
+
+        .brand-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .dot-pink {
+            background: var(--color-pink);
+        }
+
+        .dot-orange {
+            background: var(--color-orange);
+        }
+
+        .dot-green {
+            background: var(--color-green);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--color-orange);
+            color: var(--color-white);
+            font-family: var(--font-headings);
+            font-size: var(--size-button);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 18px 50px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            border: none;
+            box-shadow: var(--shadow-button);
+            cursor: pointer;
+            transition: var(--transition);
+            /* Rialzato dal bordo per la richiesta dell'utente */
+            position: relative;
+            z-index: 2;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: #FDB175;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(248, 159, 90, 0.4);
+            color: var(--color-white);
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: calc(var(--spacing-lg));
+        }
+
+        .title-with-line {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-gray-dark);
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .title-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .title-underline-orange {
+            background: var(--color-orange);
+        }
+
+        .title-underline-pink {
+            background: var(--color-pink);
+        }
+
+        .title-underline-green {
+            background: var(--color-green);
+        }
+
+        .content-section {
+            padding: var(--spacing-section) 0;
+        }
+
+        .content-section-alt {
+            background: var(--color-white);
+            padding: var(--spacing-section) 0;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-body);
+            font-size: var(--size-subtitle);
+            color: var(--color-gray-medium);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* ROI Section (Stat Cards) */
+        .roi-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-top: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: var(--shadow-md);
+            border-top: 6px solid var(--color-orange);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .stat-card:nth-child(2) {
+            border-color: var(--color-pink);
+        }
+
+        .stat-card:nth-child(3) {
+            border-color: var(--color-green);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-value {
+            font-family: var(--font-headings);
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--color-gray-dark);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: var(--font-headings);
+            font-size: 24px;
+            text-transform: uppercase;
+            color: var(--color-gray-medium);
+        }
+
+        /* Le 3 Modalità Section */
+        .mode-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 900px) {
+            .mode-grid {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+
+        .mode-card {
+            background: var(--color-gray-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+            transition: var(--transition);
+            border-top: 4px solid var(--color-pink);
+            text-align: left;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-top-color: var(--color-orange);
+        }
+
+        .mode-card-title {
+            font-family: var(--font-headings);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            margin-bottom: 10px;
+            margin-top: 0;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--color-gray-border);
+            padding-bottom: 10px;
+        }
+
+        .mode-card p {
+            font-size: 16px;
+            margin: 0;
+            line-height: 1.6;
+            color: var(--color-gray-medium);
+        }
+
+        /* 12 Process Grid Expansa */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: var(--spacing-lg);
+        }
+
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--color-gray-border);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--color-green);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-green);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-gray-border);
+        }
+
+        .card-number {
+            font-family: var(--font-headings);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--color-orange);
+            margin-right: 15px;
+            line-height: 1;
+        }
+
+        .card-title {
+            font-family: var(--font-headings);
+            font-size: 26px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-gray-dark);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .process-details {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .process-item {
+            margin-bottom: 12px;
+        }
+
+        .process-label {
+            color: var(--color-orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Benefit Items List (Bullets) FIXATI */
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .benefit-icon {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--color-orange);
+            line-height: 1.5;
+            /* Matches text roughly */
+            margin-top: -1px;
+            /* Fine tune vertical alignment */
+            flex-shrink: 0;
+        }
+
+        .benefit-text {
+            margin: 0;
+            line-height: 1.6;
+            color: var(--color-gray-medium);
+            font-size: 18px;
+        }
+
+        .icon-pink {
+            color: var(--color-pink);
+        }
+
+        .icon-green {
+            color: var(--color-green);
+        }
+
+        /* Demo Section (RAG) */
+        .demo-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .demo-container {
+                flex-direction: column;
+            }
+        }
+
+        .demo-text {
+            flex: 1;
+        }
+
+        .demo-visual {
+            flex: 1;
+            background: var(--color-gray-light);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            border: 1px solid var(--color-gray-border);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Chat UI components per la Demo */
+        .chat-bubble {
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            max-width: 90%;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-bubble {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-border);
+            color: var(--color-gray-dark);
+            border-bottom-right-radius: 0;
+            margin-left: auto;
+        }
+
+        .ai-bubble {
+            background: rgba(140, 198, 63, 0.1);
+            border: 1px solid rgba(140, 198, 63, 0.3);
+            color: var(--color-gray-dark);
+            border-bottom-left-radius: 0;
+        }
+
+        .source-tag {
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-white);
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            color: var(--color-green);
+            font-weight: 600;
+            border: 1px solid rgba(140, 198, 63, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="container">
+            <h1>PIÙ SPAZIO AL TALENTO, MENO AL DATA ENTRY.<br>L'EVOLUZIONE AZIENDALE È QUI</h1>
+            <p class="subtitle" role="doc-subtitle">Trasformiamo il paradigma aziendale con un approccio Agile che mette
+                l'AI al servizio del team. Delega i processi ripetitivi a una forza lavoro digitale sicura e scala il
+                tuo business senza esplosione dei costi fissi. L'AI esegue, l'umano guida: la decisione finale resta
+                sempre la tua</p>
+
+            <a href="#il-valore" class="btn-primary" aria-label="Scopri l'impatto sul business">SCOPRI L'IMPATTO</a>
+
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ROI SECTION / IL VALORE -->
+    <section id="il-valore" class="content-section">
+        <div class="container">
+            <div class="title-container">
+                <h2 class="title-with-line">
+                    L'IMPATTO SUL BUSINESS
+                    <span class="title-underline title-underline-orange"></span>
+                </h2>
+                <p class="section-subtitle">Dati stimati sull'introduzione progressiva dell'infrastruttura AI
+                    all'interno di una tipica PMI B2B di 10 persone, dove i dipendenti non perdono il posto, ma il loro
+                    tempo viene totalmente liberato sui compiti ad alto valore aggiunto (commerciale, analisi e
+                    relazione).</p>
+            </div>
+
+            <div class="roi-stats">
+                <div class="stat-card">
+                    <div class="stat-value">184</div>
+                    <div class="stat-label">Ore Salvate / Mese<br><small style="opacity:0.7">≈ 1 persona FTE su 1.600
+                            h/anno</small></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">+ 1</div>
+                    <div class="stat-label">FTE Guadagnato</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">Scalabilità Costi Fissi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Le Scegli come Integrare (Le 3 Modalità sintetiche) -->
+    <section class="content-section-alt">
+        <div class="container">
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+
+            <div class="title-container">
+                <h2 class="title-with-line">
+                    I MOEDELLI DI ADOZIONE
+                    <span class="title-underline title-underline-pink"></span>
+                </h2>
+                <p class="section-subtitle">Il controllo all'Azienda: Scegliamo dove e come l'Agente deve operare
+                    all'interno del processo, per non stravolgere i flussi del tuo ufficio e testare sul campo
+                    l'efficacia in modalità Agile MVP (Minimum Viable Product).</p>
+            </div>
+
+            <div class="mode-grid">
+
+                <div class="mode-card">
+                    <h3 class="mode-card-title">MODELLO A: L'Invisibile</h3>
+                    <p><strong>Lavoro nel Background.</strong> L'AI opera dietro le quinte monitorando flussi logici
+                        (es. lettura posta ordini@). Estrae i dati e popola o suggerisce azioni sull'ERP pre-esistente
+                        aziendale. L'utente non si iscrive a un nuovo tool, ma vede il lavoro faticoso già pre-compilato
+                        sulle sue maschere gestionali abituali.</p>
+                </div>
+
+                <div class="mode-card">
+                    <h3 class="mode-card-title">MODELLO B: Il Collega</h3>
+                    <p><strong>Assistente Integrato.</strong> Gli agenti intelligenti si "assumono" sui canali di chat
+                        aziendale. Direttamente all'interno di Microsoft Teams, Slack o email, l'operatore umano o il
+                        commerciale può porre un quesito o richiedere un'azione all'Assitente e ricevere risposta o
+                        documento immediati.</p>
+                </div>
+
+                <div class="mode-card">
+                    <h3 class="mode-card-title">MODELLO C: La Centrale</h3>
+                    <p><strong>Dashboard per Ruoli Complessi.</strong> Creazione rapida di una web-app dedicata per
+                        mansioni che richiedono alto monitoraggio (es: Ufficio Acquisti). Accedendo al proprio ambiente
+                        cloud sicuro, il ruolo di Management supervisiona le azioni proposte dall'AI (es. "Ordini da far
+                        partire in ritardo"), validandole o respingendole a colposecco.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- I 12 PROCESSI (GRID ESPANSA CON DETTAGLI: TRASFORMAZIONE, UMANO-AI, BENEFICIO) -->
+    <section class="content-section">
+        <div class="container">
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+
+            <div class="title-container">
+                <h2 class="title-with-line">
+                    IL PERCORSO DEI 12 PROCESSI
+                    <span class="title-underline title-underline-green"></span>
+                </h2>
+                <p class="section-subtitle">Mappatura strategica per trasformare e scalare l'azienda, processo dopo
+                    processo.</p>
+            </div>
+
+            <div class="process-grid">
+                <!-- 01 HIRING -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">01</div>
+                        <h3 class="card-title">HIRING</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Lettura asettica di dozzine di CV convertita in Short-List immediata e qualificata.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            L'Assistente digitale redige la Job Descripton e filtra i CV fuori-target;
+                            <strong>l'Azienda</strong> conduce interviste ad alto livello per il match culturale umano.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Risparmio di 10 h/mese, zero Bias e talenti intercettati
+                            prima dei concorrenti.
+                        </div>
+                        <div class="process-item" style="margin-top: 14px;">
+                            <a href="/static/hiring.html"
+                                style="display:inline-block; background:var(--color-orange); color:white; font-family:var(--font-headings); font-size:14px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:10px 22px; border-radius:20px; text-decoration:none;">DEEP
+                                DIVE →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02 BOARDING -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">02</div>
+                        <h3 class="card-title">BOARDING</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Burocrazia infinita al Giorno-1 convertita in accoglienza fluida tramite Tutor generativo.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            L'AI assegna utenze sicure e interroga il neo-assunto sulle policy aziendali. <strong>I
+                                Manager</strong> si concentrano solo per formarlo sull'etica del lavoro.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> 5 h in meno per attivazione. Nuove risorse produttive in 5
+                            giorni.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 03 ORDER-ENTRY -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">03</div>
+                        <h3 class="card-title">ORDER-ENTRY</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Il data-entry manuale di PDF sporchi è annullato grazie all'estrazione semantica avanzata.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            L'Agente processa la casella ordini, controlla scadenze e li immette ad ERP. <strong>Il
+                                Customer Service</strong> risolve ad altezza d'uomo solo le eccezioni o ordini non
+                            congrui.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Più di 13 h recuperate. Zero refusi di quantità/prezzo in
+                            fase di conferma d'ordine.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 04 RFQ -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">04</div>
+                        <h3 class="card-title">RFQ</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            La tortuosa letura di bandi da 100 pagine ridotta alla sintesi di 3 requisiti critici e
+                            stime istantanee per CPQ.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            L'AI analizza richieste allegate ed enuclea i prodotti. <strong>L'Area Commerciale</strong>
+                            si focalizza sulla validazione dello sconto commerciale relazionale per vincere la gara.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Circa 12h evitate in copia-incolla; Lead-time di offerta
+                            giù del 50%, incrementando le opportunità.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 05 PURCHASING -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">05</div>
+                        <h3 class="card-title">PURCHASING</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Inseguire conferme d'ordine per telefono passa in mano al controllo AI costante del
+                            portafoglio ordini.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Bot che inviano reminder formali e leggono i documenti di fornitura in ingresso. <strong>Il
+                                Buyer</strong> entra in gioco nelle rinegoziazioni annue con la direzione fornitori.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Risparmio di 15h in telefonate amministrative e
+                            prevenzione immediata dei buchi di linea di produzione.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06 LOGISTICS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">06</div>
+                        <h3 class="card-title">LOGISTICS (IN)</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Il caricamento del magazzino sbloccato dall'OCR in tempo reale che riconcilia Ordine,
+                            Imballo e Bolla.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Il carico materiale a gestionale è generato. Al <strong>Logistico Umano</strong> spetta la
+                            verifica sensoriale delle scatole ammaccate o della difettistica non descrivibile via testo.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> 12h recuperate e Giacenze aggiornate all'istante, vitali
+                            per programmare le spedizioni del giorno dopo.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 07 INVOICE REG -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">07</div>
+                        <h3 class="card-title">INVOICE REG.</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Approvazione e match a tre vie (Ordine/DDT/Fattura) eseguiti a ciclo cieco.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Sulle fatture perfette (90%), l'AI sblocca pagamenti e registrazione COGE.
+                            L'<strong>Amministrativo</strong> prende i comandi analizzando unicamente devianze, sconti
+                            extra o addebiti contestati.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Recupero vitale di 14h. Ribilanciamento a favore del
+                            "Controllo di Gestione" vero e proprio.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 08 ACCOUNTS REC -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">08</div>
+                        <h3 class="card-title">ACCOUNTS REC.</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            L'incasso passivo diventa una macchina di scoring finanziario continuo.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Il sistema emette cortese Outreach (solleciti a 7-15 gg), incrocia gli estratti conto
+                            integrati. <strong>Il Cash Manager</strong> chiama e struttura i piani di rientro per i
+                            grandi debitori (hard-collections).
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Il massimo rientro: 18h salvate, e notevole anticipo sul
+                            recupero dei Days Sales Outstanding (DSO) garantendo ossigeno puro - cassa solida - mensile.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 09 PROD DESIGN -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">09</div>
+                        <h3 class="card-title">PROD. DESIGN</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Accelerato il lungo passaggio dalla concezione dell'idea al Prototipo Virtuale a mercato,
+                            grazie ad agenti R&D generativi.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Analisi dei Trend dei Competitors continue delegata allo scraper. Mentre
+                            <strong>L'Ingegneria Umana o R&D</strong> assemblano fattibilità fisica ed esperienziale.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> 15 h risparmiate; ma specialmente superamento anticipato
+                            dei competitor sui prodotti che rispondono a precisi "Pain Points".
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10 SALES -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">10</div>
+                        <h3 class="card-title">SALES (CRM)</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            L'agonia dei venditori costretti a compilare forms serali a PC si estingue, dando vita a
+                            cacciatori digitalmente aumentati.
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Registratori d'appunti estraggono Next Steps e Pipeline CRM live dalle singole visite. I
+                            <strong>Commerciali Umani</strong> impiegano l'energia recuperata per relazioni vere e
+                            trattative serrate.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> 30h al mese rilasciate alla rete vendite! È fatturato
+                            potenziale puro senza assumere altri Account Managers.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11 KNOWLEDGE NAV -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">11</div>
+                        <h3 class="card-title">KNOWLEDGE NAV.</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Dal "File server smarrito" alla chat Aziendale ad unificata sicurezza interna e comprensione
+                            totale (Architettura RAG).
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Tutti interrogano l'oracolo digitale aziendale per ricavare procedure. Gli <strong>esperti
+                                Umani del reparto</strong> devono solo validare e curare (knowledge curation) le
+                            metriche originali di fondo.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> 20h recuperate in media su tutto lo staff aziendale
+                            azzerando inefficienze e le tipiche "interruzioni continue sulle spalle dei colleghi
+                            intermedi".
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12 CUST SERVICE -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-number">12</div>
+                        <h3 class="card-title">CUST. SERVICE</h3>
+                    </div>
+                    <div class="process-details">
+                        <div class="process-item">
+                            <span class="process-label">Trasformazione</span>
+                            Ticket infuocati vengono smistati come acqua fresca e i guasti codificati tramite
+                            intelligenze ottico-visuali (Vision AI).
+                        </div>
+                        <div class="process-item">
+                            <span class="process-label">Umano & AI</span>
+                            Diagnostica veloce L1 su base documentale a carico della macchina. Ai <strong>Tecnici Umani
+                                del livello 2 e 3</strong> restano il Troubleshooting profondo che esige esperienza di
+                            altissimo livello ingegneristico.
+                        </div>
+                        <div class="process-item" style="color:var(--color-gray-dark);">
+                            <strong>⟳ Impatto (ROI):</strong> Oltre 25 ore sbloccate. Incremento della percezione di
+                            cura dal cliente al primo impatto telefonico-scritto.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMO SECTION -->
+    <section class="content-section-alt">
+        <div class="container">
+            <div class="brand-dots" aria-hidden="true">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+
+            <div class="title-container">
+                <h2 class="title-with-line">
+                    DEEP DIVE DEMO
+                    <span class="title-underline title-underline-orange"></span>
+                </h2>
+                <p class="section-subtitle">Il Caso "Knowledge Navigator" (Assistente Procedurale RAG)</p>
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-text">
+                    <div class="benefit-item">
+                        <div class="benefit-icon" aria-hidden="true">›</div>
+                        <div class="benefit-text">
+                            <strong>Rilevamento Sicuro:</strong> Estrazione del significato del documento isolata
+                            nell'esclusivo database dell'utente. Nessuna preghiera sui server pubblici esterni.
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon icon-pink" aria-hidden="true">›</div>
+                        <div class="benefit-text">
+                            <strong>Ricerca Semantica Istantanea:</strong> Non tramite codici e keyword esatte,
+                            l'utilizzatore domanda in linguaggio colloquiale e incerto che riceve una decifratura
+                            logica.
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon icon-green" aria-hidden="true">›</div>
+                        <div class="benefit-text">
+                            <strong>Zero Allucinazioni:</strong> L'architettura costringe l'Agente a rispondere solo se
+                            c'è un riscontro, indicando all'utente la fonte esatta. Provala.
+                        </div>
+                    </div>
+
+                    <a href="http://localhost:8000/" target="_blank" class="btn-primary" style="margin-top: 30px;">PROVA
+                        LA DEMO WEB</a>
+                </div>
+
+                <div class="demo-visual" role="region" aria-label="Esempio Chat Assistant">
+                    <div class="chat-bubble user-bubble">
+                        Ciao, posso lavorare da casa il venerdì pomeriggio? Non ho capito se il periodo di prova incide.
+                    </div>
+
+                    <div class="chat-bubble ai-bubble">
+                        <strong
+                            style="font-family: var(--font-headings); font-size: 24px; color: var(--color-gray-dark);">Assistente
+                            Aziendale:</strong><br><br>
+                        Ciao! Sì, ma con alcune restrizioni a causa del contratto iniziale. Secondo l'ultimo
+                        aggiornamento della Policy in vigore:<br><br>
+                        "I neo-assunti in periodo di prova devono garantire la presenza in sede 5 giorni su 5 per
+                        affiancamento. Una volta superato, si ha diritto a 2 giorni di remote-working a settimana (tra
+                        cui a scelta il venerdì)."<br>
+                        <span class="source-tag">📄 Fonte: Policy_Aziendale.pdf (Pag 4)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
