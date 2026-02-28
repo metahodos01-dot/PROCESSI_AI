@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Demo AI-Driven | MetàHodòs</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+            --radius-md: 15px;
+            --radius-pill: 30px;
+            --transition: 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-gray-medium);
+            background: var(--color-gray-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--color-gray-dark);
+            padding: 16px 0;
+        }
+
+        .nav-brand {
+            font-family: var(--font-headings);
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--color-orange);
+        }
+
+        .back-link {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            font-size: 14px;
+            float: right;
+            margin-top: 5px;
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--color-white);
+            padding: 50px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--color-gray-border);
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: 48px;
+            color: var(--color-gray-dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--color-orange);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--color-gray-medium);
+        }
+
+        .brand-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .dot-pink {
+            background: var(--color-pink);
+        }
+
+        .dot-orange {
+            background: var(--color-orange);
+        }
+
+        .dot-green {
+            background: var(--color-green);
+        }
+
+        /* CARDS */
+        .demo-section {
+            padding: 60px 0;
+        }
+
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--color-orange);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .phase-badge {
+            background: var(--color-orange);
+            color: white;
+            font-family: var(--font-headings);
+            font-size: 20px;
+            font-weight: 700;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card h2 {
+            font-family: var(--font-headings);
+            font-size: 32px;
+            color: var(--color-gray-dark);
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* FORMS */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-gray-dark);
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--color-gray-border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--color-orange);
+            outline: none;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--color-orange);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-headings);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(248, 159, 90, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* RESULTS BOX */
+        .result-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+        }
+
+        .result-box h3 {
+            font-family: var(--font-headings);
+            font-size: 24px;
+            text-transform: uppercase;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--color-orange);
+        }
+
+        .result-box h3:first-child {
+            margin-top: 0;
+        }
+
+        .result-box p {
+            margin-bottom: 16px;
+        }
+
+        .result-box ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-box li {
+            margin-bottom: 6px;
+        }
+
+        /* LOADER */
+        .loader {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+            font-family: var(--font-headings);
+            font-size: 18px;
+            color: var(--color-orange);
+            font-weight: 600;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(248, 159, 90, 0.3);
+            border-top-color: var(--color-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <!-- Add Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="/static/onboarding.html" class="nav-brand">MetàHodo<span>s</span></a>
+            <a href="/static/onboarding.html" class="back-link">← Torna e Leggi il Flow Onboarding</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Demo <span>Live</span> Onboarding AI</h1>
+            <p class="subtitle">Interroga l'Agent per creare il piano di 5 giorni leggendo la Policy Aziendale salvata
+                nel Database Navigazionale</p>
+            <div class="brand-dots">
+                <span class="dot dot-pink"></span>
+                <span class="dot dot-orange"></span>
+                <span class="dot dot-green"></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="demo-section">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <div class="phase-badge">O</div>
+                    <h2>Tutor Formativo</h2>
+                </div>
+                <p style="margin-bottom: 30px;">Inserisci i dati basilari del nuovo collaboratore. L'AI estrarrà le
+                    attività e la sicurezza in base a quanto presente nella <strong>Policy_Aziendale.pdf</strong> del
+                    Knowledge Base RAG centrale.</p>
+
+                <div class="form-group">
+                    <label>Nome del Dipendente:</label>
+                    <input type="text" id="ob-name" placeholder="Es. Lorenzo Ferrari" value="Lorenzo Ferrari">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ruolo Previsto:</label>
+                        <input type="text" id="ob-role" placeholder="Es. AI Engineer" value="AI Engineer">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Livello di Seniority:</label>
+                        <select id="ob-seniority">
+                            <option value="Junior / Stage" selected>Junior / Neolaureato</option>
+                            <option value="Mid-Level">Mid-Level</option>
+                            <option value="Senior / Executive">Senior / Executive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="btn-generate-plan">Genera Piano su Misura</button>
+
+                <div class="loader" id="loader-plan">
+                    <div class="spinner"></div> Recupero informazioni e generazione itinerario in corso...
+                </div>
+
+                <div class="result-box" id="result-plan"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS LOGIC -->
+    <script>
+        document.getElementById('btn-generate-plan').addEventListener('click', async () => {
+            const name = document.getElementById('ob-name').value;
+            const role = document.getElementById('ob-role').value;
+            const seniority = document.getElementById('ob-seniority').value;
+            const btn = document.getElementById('btn-generate-plan');
+            const loader = document.getElementById('loader-plan');
+            const resultBox = document.getElementById('result-plan');
+
+            if (!name || !role) return alert('Compila le anagrafiche base per favore!');
+
+            btn.disabled = true;
+            loader.style.display = 'flex';
+            resultBox.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/onboarding/generate-plan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome_dipendente: name,
+                        ruolo: role,
+                        seniority: seniority
+                    })
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Errore Server: ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                // Convert markdown to HTML before displaying
+                resultBox.innerHTML = marked.parse(data.plan_text);
+                resultBox.style.display = 'block';
+
+            } catch (err) {
+                alert('Errore API: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MetàHodòs Deep Dive: Processo Onboarding (Boarding) AI-Driven.">
+    <title>Onboarding AI-Driven | MetàHodòs Deep Dive</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            --size-hero: 86px;
+            --size-h1: 56px;
+            --size-h2: 32px;
+            --size-body: 19px;
+            --radius-lg: 20px;
+            --radius-pill: 30px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--size-body);
+            color: var(--color-gray-medium);
+            background: var(--color-white);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        nav {
+            background: var(--color-gray-dark);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--font-headings);
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--color-white);
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--color-orange);
+        }
+
+        .nav-back {
+            font-family: var(--font-headings);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+        }
+
+        .nav-back:hover {
+            color: var(--color-orange);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--color-orange);
+            color: var(--color-white);
+            font-family: var(--font-headings);
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 16px 48px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 12px rgba(248, 159, 90, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(248, 159, 90, 0.45);
+        }
+
+        .hero {
+            background: var(--color-gray-dark);
+            color: var(--color-white);
+            padding: 80px 20px 110px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: var(--color-white);
+            clip-path: ellipse(100% 100% at 50% 100%);
+        }
+
+        .hero-chip {
+            display: inline-block;
+            border: 1px solid rgba(248, 159, 90, 0.5);
+            color: var(--color-orange);
+            font-family: var(--font-headings);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 8px 22px;
+            border-radius: var(--radius-pill);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: var(--size-hero);
+            line-height: 1.05;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--color-orange);
+        }
+
+        .hero p {
+            font-family: var(--font-headings);
+            font-size: 28px;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .legend-section {
+            background: var(--color-gray-light);
+            padding: 36px 24px;
+            border-bottom: 2px solid var(--color-gray-border);
+        }
+
+        .legend-section .container {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .legend-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .legend-badge.ai {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 2px solid #3b82f6;
+        }
+
+        .legend-badge.human {
+            background: #fce7ef;
+            color: var(--color-pink);
+            border: 2px solid var(--color-pink);
+        }
+
+        .legend-badge.collab {
+            background: #ecfccb;
+            color: #4d7c0f;
+            border: 2px solid var(--color-green);
+        }
+
+        .legend-info strong {
+            display: block;
+            font-family: var(--font-headings);
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .phase-section {
+            padding: 80px 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 58px;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: var(--color-gray-border);
+            border-radius: 4px;
+        }
+
+        .tl-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 14px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid var(--color-white);
+        }
+
+        .tl-item.ai::before {
+            background: #3b82f6;
+            box-shadow: 0 0 0 3px #3b82f6;
+        }
+
+        .tl-item.collab::before {
+            background: var(--color-green);
+            box-shadow: 0 0 0 3px var(--color-green);
+        }
+
+        .tl-item.human::before {
+            background: var(--color-pink);
+            box-shadow: 0 0 0 3px var(--color-pink);
+        }
+
+        .tl-card {
+            background: var(--color-white);
+            border-radius: 15px;
+            padding: 22px 26px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid transparent;
+        }
+
+        .tl-item.ai .tl-card {
+            border-left-color: #3b82f6;
+        }
+
+        .tl-item.collab .tl-card {
+            border-left-color: var(--color-green);
+        }
+
+        .tl-item.human .tl-card {
+            border-left-color: var(--color-pink);
+        }
+
+        .tl-actor {
+            font-family: var(--font-headings);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .tl-item.ai .tl-actor {
+            color: #1d4ed8;
+        }
+
+        .tl-item.collab .tl-actor {
+            color: #4d7c0f;
+        }
+
+        .tl-item.human .tl-actor {
+            color: var(--color-pink);
+        }
+
+        .tl-card h4 {
+            font-family: var(--font-headings);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            margin-bottom: 6px;
+        }
+
+        .kpi-section {
+            background: var(--color-gray-dark);
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .kpi-section h2 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            color: var(--color-white);
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .kpi-section h2 em {
+            color: var(--color-orange);
+            font-style: normal;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 36px 20px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-headings);
+            font-size: 58px;
+            font-weight: 800;
+            color: var(--color-orange);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .kpi-label {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.5;
+        }
+
+        .kpi-label strong {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .cta-section {
+            padding: 80px 24px;
+            text-align: center;
+            background: var(--color-white);
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-headings);
+            font-size: var(--size-h1);
+            margin-bottom: 20px;
+            color: var(--color-gray-dark);
+            text-transform: uppercase;
+        }
+
+        .cta-section p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            color: var(--color-gray-medium);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="/" class="nav-brand">METÀ<span>HODÒS</span></a>
+            <a href="/" class="nav-back">← Torna alla Home Page</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-chip">02 Boarding</div>
+        <h1>L'ONBOARDING<br><span>TOTALMENTE FLUIDO</span></h1>
+        <p>Burocrazia annullata, permessi automatici e un piano di accoglienza su misura per ogni nuovo dipendente,
+            generato dall'AI.</p>
+    </header>
+
+    <section class="legend-section">
+        <div class="container">
+            <div class="legend-item">
+                <div class="legend-badge ai">AI</div>
+                <div class="legend-info">
+                    <strong>Agente AI</strong>
+                    <span>Esecuzione Istantanea</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-badge collab">CO</div>
+                <div class="legend-info">
+                    <strong>Tutor & Neo-Assunto</strong>
+                    <span>Collaborazione Assistita</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-badge human">UM</div>
+                <div class="legend-info">
+                    <strong>Manager (Umano)</strong>
+                    <span>Cultura e Mentoring</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="phase-section">
+        <div class="container" style="max-width: 800px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2
+                    style="font-family: var(--font-headings); font-size: 40px; color: var(--color-gray-dark); text-transform: uppercase;">
+                    La Mappa del Valore</h2>
+                <p>Ecco come AI e Persone si dividono i compiti nei primi 5 giorni essenziali.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="tl-item ai">
+                    <div class="tl-card">
+                        <div>
+                            <div class="tl-actor">Azione Core AI</div>
+                            <h4>Setup IT & Piano Formativo</h4>
+                            <p>Non appena il contratto è firmato, l'AI legge la Policy e prepara il percorso (VPN,
+                                account Jira, accessi 1Password) e genera il piano step-by-step per i primi 5 giorni.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tl-item collab">
+                    <div class="tl-card">
+                        <div>
+                            <div class="tl-actor">Collaborazione Tutor AI / Dipendente</div>
+                            <h4>Lettura Policy e Autonomia</h4>
+                            <p>Il nuovo dipendente consulta il chabot RAG aziendale per i dubbi (es: "A che ora è la
+                                pausa?", "Come funziona l'accesso remoto?"). L'AI fa da navigatore senza scomodare HR.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tl-item human">
+                    <div class="tl-card">
+                        <div>
+                            <div class="tl-actor">Focus Umano</div>
+                            <h4>Mentoring Operativo e Valori</h4>
+                            <p>I colleghi Senior e i Manager dedicano il loro tempo ESCLUSIVAMENTE a trasferire
+                                conoscenza reale di business e accoglienza emozionale, saltando tutta la prassi noiosa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kpi-section">
+        <h2>Il Valore Rilasciato <em>Nel Mondo Reale</em></h2>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-value">-80%</div>
+                <div class="kpi-label">Tempo per <strong>creare utenze IT</strong> e firmare documentazione base</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value">5h</div>
+                <div class="kpi-label"><strong>Risparmiate</strong> per ogni singola assunzione dal dipartimento HR
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value">+40%</div>
+                <div class="kpi-label"><strong>Soddisfazione</strong> del neo-assunto nel Giorno-1</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prova il Motore di Onboarding</h2>
+            <p>Vivi l'esperienza dal vivo: definisci il ruolo del dipendente e lascia che l'AI generi il piano per la
+                prima settimana, basato sulle policy reali.</p>
+            <a href="/static/onboarding-demo.html" class="btn-primary">LANCIA LA DEMO INTERATTIVA</a>
+        </div>
+    </section>
+
+</body>
+
+</html>

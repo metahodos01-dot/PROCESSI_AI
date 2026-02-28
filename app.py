@@ -64,6 +64,15 @@ class ChatResponse(BaseModel):
     response: str
 
 
+# --- Onboarding Demo Models ---
+class OnboardingRequest(BaseModel):
+    nome_dipendente: str
+    ruolo: str
+    seniority: str
+
+class OnboardingResponse(BaseModel):
+    plan_text: str
+
 # --- Hiring Demo Models ---
 class JDRequest(BaseModel):
     role: str
@@ -199,5 +208,42 @@ async def score_cv(req: CVScoreRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# ─── Onboarding Demo Endpoints ────────────────────────────────────────────────
+
+onboarding_agent = Agent(
+    name="Onboarding Tutor",
+    role=(
+        "Sei il Tutor AI per l'onboarding in MetàHodòs. "
+        "Attingi SEMPRE alla policy aziendale per formare il nuovo dipendente su regole d'ufficio, "
+        "sicurezza informatica (es. VPN, 1Password, policy 'Zero Allucinazioni') e benefit in base al ruolo e seniority. "
+        "Crea un piano di 5 giorni realistico e accogliente."
+    ),
+    knowledge=knowledge_base,
+    search_knowledge=True,
+    markdown=False
+)
+
+@app.post("/api/onboarding/generate-plan", response_model=OnboardingResponse)
+async def generate_onboarding_plan(req: OnboardingRequest):
+    try:
+        prompt = f"""
+        Crea un piano di Onboarding di 5 giorni per:
+        - Nome: {req.nome_dipendente}
+        - Ruolo: {req.ruolo}
+        - Livello: {req.seniority}
+        
+        Usa la tua knowledge base (leggi la policy aziendale). Include nel piano:
+        1. Giorno 1: Benvenuto, setup IT (sicurezza, VPN) e cultura MetàHodòs.
+        2. Giorno 2-3: Regole di condotta, procedure del ruolo.
+        3. Giorno 4-5: Shadowing e setup AI.
+        
+        Rispondi con un output leggibile, organizzato in paragrafi o elenchi puntati semplici (senza eccessivo markdown tecnico).
+        """
+        response = onboarding_agent.run(prompt)
+        text_content = getattr(response, "content", str(response))
+        return OnboardingResponse(plan_text=text_content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
