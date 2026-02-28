@@ -18,7 +18,7 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector
 
 # ─── Config ───────────────────────────────────────────────────────────────────
-DB_URL = "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+DB_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
 DOCS_DIR = Path(__file__).parent / "enterprise_docs"
 DOCS_DIR.mkdir(exist_ok=True)
 

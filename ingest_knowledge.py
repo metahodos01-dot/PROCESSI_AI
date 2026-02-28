@@ -3,7 +3,7 @@ from agno.knowledge import Knowledge
 from agno.vectordb.pgvector import PgVector, SearchType
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 
-db_url = "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+db_url = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
 
 # Crea la Knowledge Base associata a Neon DB (tabella per vettori documentali)
 knowledge_base = Knowledge(

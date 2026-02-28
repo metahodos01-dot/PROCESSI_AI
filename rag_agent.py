@@ -7,8 +7,9 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 # Importa GmailTools per inviare e-mail
 from agno.tools.gmail import GmailTools
 
+import os
 # Connessione al DB Neon
-db_url = "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+db_url = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
 
 # Colleghiamo la Knowledge Base al database vettoriale già popolato
 knowledge_base = Knowledge(

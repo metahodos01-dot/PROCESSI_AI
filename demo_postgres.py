@@ -4,7 +4,7 @@ from agno.db.postgres import PostgresDb
 
 # DB URL from Neon (puoi impostarlo come variabile d'ambiente o usarlo hardcoded per test)
 # Di solito è consigliato usare os.getenv("DATABASE_URL") in produzione.
-db_url = "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+db_url = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
 
 # Creiamo lo storage collegato al DB Neon
 # Questo creerà automaticamente la tabella 'agent_sessions' se non esiste.
