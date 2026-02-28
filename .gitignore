@@ -12,7 +12,7 @@ venv/
 # Agno/Phidata
 agent.db
 storage/
-enterprise_docs/
 
 # Vercel
 .vercel/
+.vercel
