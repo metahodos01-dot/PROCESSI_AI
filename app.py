@@ -100,21 +100,7 @@ async def serve_frontend():
     return FileResponse("static/index.html")
 
 
-import traceback, os
 
-@app.get("/api/debug")
-async def debug():
-    try:
-        import openai
-        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": "say hello"}],
-            max_tokens=5
-        )
-        return {"status": "ok", "response": resp.choices[0].message.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
-    except Exception as e:
-        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12], "trace": traceback.format_exc()[-500:]}
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
@@ -125,8 +111,7 @@ async def chat(req: ChatRequest):
                 response_text += chunk.content
         return ChatResponse(response=response_text)
     except Exception as e:
-        import traceback
-        return ChatResponse(response=f"Error in Agent run: {type(e).__name__} | {str(e)} | {traceback.format_exc()[-200:]}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/upload")
 async def upload_document(file: UploadFile = File(...)):
@@ -264,18 +249,3 @@ async def generate_onboarding_plan(req: OnboardingRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-@app.get("/api/debug2")
-async def debug2():
-    try:
-        import urllib.request
-        import urllib.error
-        import os
-        import json
-        req = urllib.request.Request("https://api.openai.com/v1/models", headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            return {"status": "ok", "code": response.getcode()}
-    except urllib.error.URLError as e:
-        return {"status": "error", "error": str(e.reason)}
-    except Exception as e:
-        import traceback
-        return {"status": "error", "trace": traceback.format_exc()}

@@ -4,7 +4,6 @@ from agno.vectordb.pgvector import PgVector, SearchType
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.models.openai import OpenAIChat
-import httpx
 
 # Importa GmailTools per inviare e-mail
 from agno.tools.gmail import GmailTools
@@ -21,21 +20,13 @@ knowledge_base = Knowledge(
         table_name="enterprise_documents",
         db_url=db_url,
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(dimensions=1536, client=httpx.Client(timeout=httpx.Timeout(60.0), limits=httpx.Limits(max_keepalive_connections=0, keepalive_expiry=0))),
+        embedder=OpenAIEmbedder(dimensions=1536),
     ),
     # Definisce il numero di frammenti di documento da passare al LLM per rispondere
     max_results=5,
 )
 
-# Custom HTTPX client specifically configured to handle Vercel Serverless issues (like keeping TCP sockets alive)
-vercel_http_client = httpx.Client(
-    timeout=httpx.Timeout(60.0),
-    limits=httpx.Limits(max_keepalive_connections=0, keepalive_expiry=0)
-)
-
-# Creazione dell'Agente RAG Multitool
-rag_agent = Agent(
-    model=OpenAIChat(id="gpt-4o-mini", http_client=vercel_http_client),
+    model=OpenAIChat(id="gpt-4o-mini"),
     name="Enterprise RAG Assistant",
     role="Sei l'assistente AI aziendale. Rispondi alle domande aziendali cercando nei documenti (Policy o Vendite). Se ti chiedono di inviare una mail o leggere la posta, usa GmailTools.",
     knowledge=knowledge_base,
