@@ -264,3 +264,18 @@ async def generate_onboarding_plan(req: OnboardingRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+@app.get("/api/debug2")
+async def debug2():
+    try:
+        import urllib.request
+        import urllib.error
+        import os
+        import json
+        req = urllib.request.Request("https://api.openai.com/v1/models", headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            return {"status": "ok", "code": response.getcode()}
+    except urllib.error.URLError as e:
+        return {"status": "error", "error": str(e.reason)}
+    except Exception as e:
+        import traceback
+        return {"status": "error", "trace": traceback.format_exc()}
