@@ -2,6 +2,8 @@
 Enterprise RAG - Backend FastAPI
 """
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import shutil
 from pathlib import Path
 from typing import Optional
@@ -16,6 +18,8 @@ from agno.agent import Agent
 from agno.knowledge import Knowledge
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector
+from agno.models.openrouter import OpenRouter
+
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 DB_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
@@ -40,6 +44,7 @@ rag_agent = Agent(
     ),
     knowledge=knowledge_base,
     tools=[DuckDuckGoTools()],
+    model=OpenRouter(id="openai/gpt-4.1-mini"),
     search_knowledge=True,
     markdown=True,
 )
@@ -153,12 +158,14 @@ async def list_documents():
 hiring_agent = Agent(
     name="HR Assistant",
     role="Sei un Senior HR Assistant per l'azienda MetàHodòs. Sei specializzato nel creare Job Description perfette e analizzare CV in modo oggettivo.",
+    model=OpenRouter(id="openai/gpt-4.1-mini"),
     markdown=False
 )
 
 hiring_scorer_agent = Agent(
     name="HR Scorer",
     role="Sei un motore di validazione CV. Valuta il CV rispetto alla JD e fornisci un'analisi strutturata.",
+    model=OpenRouter(id="openai/gpt-4.1-mini"),
     output_schema=CVScoreResult,
 )
 
@@ -220,6 +227,7 @@ onboarding_agent = Agent(
         "Crea un piano di 5 giorni realistico e accogliente."
     ),
     knowledge=knowledge_base,
+    model=OpenRouter(id="openai/gpt-4.1-mini"),
     search_knowledge=True,
     markdown=False
 )
