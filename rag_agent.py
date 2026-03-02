@@ -3,13 +3,17 @@ from agno.knowledge import Knowledge
 from agno.vectordb.pgvector import PgVector, SearchType
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.models.openai import OpenAIChat
+import httpx
 
 # Importa GmailTools per inviare e-mail
 from agno.tools.gmail import GmailTools
 
 import os
 # Connessione al DB Neon
-db_url = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
+db_url = os.getenv("DATABASE_URL")
+if not db_url:
+    raise ValueError("DATABASE_URL environment variable is missing")
 
 # Colleghiamo la Knowledge Base al database vettoriale già popolato
 knowledge_base = Knowledge(
@@ -17,14 +21,21 @@ knowledge_base = Knowledge(
         table_name="enterprise_documents",
         db_url=db_url,
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(dimensions=1536),
+        embedder=OpenAIEmbedder(dimensions=1536, client=httpx.Client(timeout=httpx.Timeout(60.0), limits=httpx.Limits(max_keepalive_connections=0, keepalive_expiry=0))),
     ),
     # Definisce il numero di frammenti di documento da passare al LLM per rispondere
     max_results=5,
 )
 
+# Custom HTTPX client specifically configured to handle Vercel Serverless issues (like keeping TCP sockets alive)
+vercel_http_client = httpx.Client(
+    timeout=httpx.Timeout(60.0),
+    limits=httpx.Limits(max_keepalive_connections=0, keepalive_expiry=0)
+)
+
 # Creazione dell'Agente RAG Multitool
 rag_agent = Agent(
+    model=OpenAIChat(id="gpt-4o-mini", http_client=vercel_http_client),
     name="Enterprise RAG Assistant",
     role="Sei l'assistente AI aziendale. Rispondi alle domande aziendali cercando nei documenti (Policy o Vendite). Se ti chiedono di inviare una mail o leggere la posta, usa GmailTools.",
     knowledge=knowledge_base,
