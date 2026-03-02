@@ -44,7 +44,7 @@ rag_agent = Agent(
     ),
     knowledge=knowledge_base,
     tools=[DuckDuckGoTools()],
-    model=OpenAIChat(id="gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4o-mini"),
     search_knowledge=True,
     markdown=True,
 )
@@ -109,7 +109,7 @@ async def debug():
     try:
         from agno.agent import Agent
         from agno.models.openai import OpenAIChat
-        test_agent = Agent(model=OpenAIChat(id="gpt-4.1-mini"), markdown=False)
+        test_agent = Agent(model=OpenAIChat(id="gpt-4o-mini"), markdown=False)
         result = test_agent.run("say hello in one word")
         return {"status": "ok", "response": result.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
     except Exception as e:
@@ -171,14 +171,14 @@ async def list_documents():
 hiring_agent = Agent(
     name="HR Assistant",
     role="Sei un Senior HR Assistant per l'azienda MetàHodòs. Sei specializzato nel creare Job Description perfette e analizzare CV in modo oggettivo.",
-    model=OpenAIChat(id="gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4o-mini"),
     markdown=False
 )
 
 hiring_scorer_agent = Agent(
     name="HR Scorer",
     role="Sei un motore di validazione CV. Valuta il CV rispetto alla JD e fornisci un'analisi strutturata.",
-    model=OpenAIChat(id="gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4o-mini"),
     output_schema=CVScoreResult,
 )
 
@@ -240,7 +240,7 @@ onboarding_agent = Agent(
         "Crea un piano di 5 giorni realistico e accogliente."
     ),
     knowledge=knowledge_base,
-    model=OpenAIChat(id="gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4o-mini"),
     search_knowledge=True,
     markdown=False
 )

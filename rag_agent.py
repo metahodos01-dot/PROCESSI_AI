@@ -32,7 +32,7 @@ knowledge_base = Knowledge(
 rag_agent = Agent(
     name="Enterprise RAG Assistant",
     role="Sei l'assistente AI aziendale. Rispondi alle domande aziendali cercando nei documenti (Policy o Vendite). Se ti chiedono di inviare una mail o leggere la posta, usa GmailTools.",
-    model=OpenAIChat(id="gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4o-mini"),
     # Aggiungi qui gli strumenti aggiuntivi!
     tools=[DuckDuckGoTools(), GmailTools()],
     # search_knowledge=True fornisce automaticamente lo strumento "search_knowledge_base" all'agente
