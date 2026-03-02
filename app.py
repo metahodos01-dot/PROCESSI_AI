@@ -103,6 +103,19 @@ async def serve_frontend():
     return FileResponse("static/index.html")
 
 
+@app.get("/api/debug")
+async def debug():
+    import traceback, os
+    try:
+        from agno.agent import Agent
+        from agno.models.openai import OpenAIChat
+        test_agent = Agent(model=OpenAIChat(id="gpt-4.1-mini"), markdown=False)
+        result = test_agent.run("say hello in one word")
+        return {"status": "ok", "response": result.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
+    except Exception as e:
+        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
+
+
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
