@@ -18,7 +18,7 @@ from agno.agent import Agent
 from agno.knowledge import Knowledge
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector
-from agno.models.openrouter import OpenRouter
+from agno.models.openai import OpenAIChat
 
 
 # ─── Config ───────────────────────────────────────────────────────────────────
@@ -44,7 +44,7 @@ rag_agent = Agent(
     ),
     knowledge=knowledge_base,
     tools=[DuckDuckGoTools()],
-    model=OpenRouter(id="openai/gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4.1-mini"),
     search_knowledge=True,
     markdown=True,
 )
@@ -158,14 +158,14 @@ async def list_documents():
 hiring_agent = Agent(
     name="HR Assistant",
     role="Sei un Senior HR Assistant per l'azienda MetàHodòs. Sei specializzato nel creare Job Description perfette e analizzare CV in modo oggettivo.",
-    model=OpenRouter(id="openai/gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4.1-mini"),
     markdown=False
 )
 
 hiring_scorer_agent = Agent(
     name="HR Scorer",
     role="Sei un motore di validazione CV. Valuta il CV rispetto alla JD e fornisci un'analisi strutturata.",
-    model=OpenRouter(id="openai/gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4.1-mini"),
     output_schema=CVScoreResult,
 )
 
@@ -227,7 +227,7 @@ onboarding_agent = Agent(
         "Crea un piano di 5 giorni realistico e accogliente."
     ),
     knowledge=knowledge_base,
-    model=OpenRouter(id="openai/gpt-4.1-mini"),
+    model=OpenAIChat(id="gpt-4.1-mini"),
     search_knowledge=True,
     markdown=False
 )
