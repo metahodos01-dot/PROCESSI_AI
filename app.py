@@ -2,8 +2,6 @@
 Enterprise RAG - Backend FastAPI
 """
 import os
-from dotenv import load_dotenv
-load_dotenv()
 import shutil
 from pathlib import Path
 from typing import Optional
@@ -18,8 +16,6 @@ from agno.agent import Agent
 from agno.knowledge import Knowledge
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector
-from agno.models.openai import OpenAIChat
-
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 DB_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
@@ -44,7 +40,6 @@ rag_agent = Agent(
     ),
     knowledge=knowledge_base,
     tools=[DuckDuckGoTools()],
-    model=OpenAIChat(id="gpt-4o-mini"),
     search_knowledge=True,
     markdown=True,
 )
@@ -103,23 +98,6 @@ async def serve_frontend():
     return FileResponse("static/index.html")
 
 
-@app.get("/api/debug")
-async def debug():
-    import os
-    try:
-        import openai
-        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": "say hello"}],
-            max_tokens=5
-        )
-        return {"status": "ok", "response": resp.choices[0].message.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
-    except Exception as e:
-        import traceback
-        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12], "trace": traceback.format_exc()[-500:]}
-
-
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
@@ -175,14 +153,12 @@ async def list_documents():
 hiring_agent = Agent(
     name="HR Assistant",
     role="Sei un Senior HR Assistant per l'azienda MetàHodòs. Sei specializzato nel creare Job Description perfette e analizzare CV in modo oggettivo.",
-    model=OpenAIChat(id="gpt-4o-mini"),
     markdown=False
 )
 
 hiring_scorer_agent = Agent(
     name="HR Scorer",
     role="Sei un motore di validazione CV. Valuta il CV rispetto alla JD e fornisci un'analisi strutturata.",
-    model=OpenAIChat(id="gpt-4o-mini"),
     output_schema=CVScoreResult,
 )
 
@@ -244,7 +220,6 @@ onboarding_agent = Agent(
         "Crea un piano di 5 giorni realistico e accogliente."
     ),
     knowledge=knowledge_base,
-    model=OpenAIChat(id="gpt-4o-mini"),
     search_knowledge=True,
     markdown=False
 )

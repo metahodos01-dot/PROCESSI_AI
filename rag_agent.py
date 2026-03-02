@@ -1,6 +1,4 @@
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
-
 from agno.knowledge import Knowledge
 from agno.vectordb.pgvector import PgVector, SearchType
 from agno.knowledge.embedder.openai import OpenAIEmbedder
@@ -10,9 +8,6 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.gmail import GmailTools
 
 import os
-from dotenv import load_dotenv
-load_dotenv()
-
 # Connessione al DB Neon
 db_url = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
 
@@ -32,7 +27,7 @@ knowledge_base = Knowledge(
 rag_agent = Agent(
     name="Enterprise RAG Assistant",
     role="Sei l'assistente AI aziendale. Rispondi alle domande aziendali cercando nei documenti (Policy o Vendite). Se ti chiedono di inviare una mail o leggere la posta, usa GmailTools.",
-    model=OpenAIChat(id="gpt-4o-mini"),
+    knowledge=knowledge_base,
     # Aggiungi qui gli strumenti aggiuntivi!
     tools=[DuckDuckGoTools(), GmailTools()],
     # search_knowledge=True fornisce automaticamente lo strumento "search_knowledge_base" all'agente
