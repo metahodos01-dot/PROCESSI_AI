@@ -105,15 +105,19 @@ async def serve_frontend():
 
 @app.get("/api/debug")
 async def debug():
-    import traceback, os
+    import os
     try:
-        from agno.agent import Agent
-        from agno.models.openai import OpenAIChat
-        test_agent = Agent(model=OpenAIChat(id="gpt-4o-mini"), markdown=False)
-        result = test_agent.run("say hello in one word")
-        return {"status": "ok", "response": result.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
+        import openai
+        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": "say hello"}],
+            max_tokens=5
+        )
+        return {"status": "ok", "response": resp.choices[0].message.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
     except Exception as e:
-        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
+        import traceback
+        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12], "trace": traceback.format_exc()[-500:]}
 
 
 @app.post("/api/chat", response_model=ChatResponse)
