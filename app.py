@@ -75,6 +75,16 @@ class OnboardingRequest(BaseModel):
 class OnboardingResponse(BaseModel):
     plan_text: str
 
+# --- Production Demo Models ---
+class ProductionRequest(BaseModel):
+    prodotto: str
+    quantita: str
+    vincoli: str
+
+class ProductionResponse(BaseModel):
+    plan_text: str
+
+
 # --- Hiring Demo Models ---
 class JDRequest(BaseModel):
     role: str
@@ -245,6 +255,42 @@ async def generate_onboarding_plan(req: OnboardingRequest):
         response = onboarding_agent.run(prompt)
         text_content = getattr(response, "content", str(response))
         return OnboardingResponse(plan_text=text_content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ─── Production Demo Endpoints ────────────────────────────────────────────────
+
+production_agent = Agent(
+    name="Production Manager",
+    role=(
+        "Sei il Production Manager AI di MetàHodòs. "
+        "Sei specializzato nel definire piani di produzione efficienti, snelli e scalabili. "
+        "Fornisci stime sensate su fasi di lavorazione, macchinari o reparti necessari, "
+        "e controlli di qualità, tenendo sempre conto dei vincoli operativi."
+    ),
+    markdown=False
+)
+
+@app.post("/api/production/generate-plan", response_model=ProductionResponse)
+async def generate_production_plan(req: ProductionRequest):
+    try:
+        prompt = f"""
+        Crea un piano di produzione aziendale per la seguente richiesta:
+        - Prodotto/Progetto: {req.prodotto}
+        - Quantità/Lotto: {req.quantita}
+        - Vincoli Specifici e Note: {req.vincoli}
+        
+        Struttura la risposta in modo leggibile (usa elenchi puntati semplici, non markdown eccessivo):
+        1. Fasi di Produzione Generali
+        2. Macchinari o Reparti Coinvolti
+        3. Stima Tempi o Colli di Bottiglia
+        4. Controlli di Qualità Raccomandati
+        
+        Usa un tono di voce aziendale, professionale ma concreto.
+        """
+        response = production_agent.run(prompt)
+        text_content = getattr(response, "content", str(response))
+        return ProductionResponse(plan_text=text_content)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

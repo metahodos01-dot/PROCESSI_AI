@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="MetàHodòs Deep Dive: come funziona il processo di Produzione AI-Driven. Generazione piani, stima tempi e controllo qualità.">
+    <title>Processo Produttivo AI-Driven | MetàHodòs Deep Dive</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;500;600;700;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ─── CSS VARIABLES MetàHodòs ─────────────────────────────── */
+        :root {
+            --color-orange: #F89F5A;
+            --color-pink: #f06681;
+            --color-green: #8CC63F;
+            --color-gray-dark: #3C3C3C;
+            --color-gray-medium: #4A4A4A;
+            --color-gray-light: #F5F5F5;
+            --color-gray-border: #E0E0E0;
+            --color-white: #FFFFFF;
+
+            --font-headings: 'Saira Condensed', sans-serif;
+            --font-body: 'Lato', sans-serif;
+
+            --size-hero: 86px;
+            --size-h1: 56px;
+            --size-h2: 32px;
+            --size-body: 19px;
+            --size-button: 20px;
+
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 40px;
+            --spacing-section: 80px;
+
+            --radius-md: 15px;
+            --radius-lg: 20px;
+            --radius-pill: 30px;
+
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+            --shadow-button: 0 4px 12px rgba(248, 159, 90, 0.3);
+            --transition: 0.3s ease;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--size-body);
+            color: var(--color-gray-medium);
+            background: var(--color-white);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--color-gray-dark);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--font-headings);
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--color-white);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-brand span {
+            color: var(--color-orange);
+        }
+
+        .nav-back {
+            font-family: var(--font-headings);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color var(--transition);
+        }
+
+        .nav-back:hover {
+            color: var(--color-orange);
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--color-gray-dark);
+            color: var(--color-white);
+            padding: var(--spacing-section) 20px 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: var(--size-hero);
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--color-orange);
+        }
+
+        .hero .subtitle {
+            font-family: var(--font-headings);
+            font-size: 28px;
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.85;
+        }
+
+        /* DEMO LAYOUT */
+        .demo-layout {
+            display: flex;
+            gap: 40px;
+            margin: 60px auto;
+            align-items: flex-start;
+        }
+
+        .panel {
+            flex: 1;
+            min-width: 300px;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-gray-border);
+        }
+
+        @media (max-width: 900px) {
+            .demo-layout {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 50px;
+            }
+        }
+
+        /* FORMS */
+        .panel h2 {
+            font-family: var(--font-headings);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--color-gray-light);
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-gray-dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #ccc;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-orange);
+            box-shadow: 0 0 0 3px rgba(248, 159, 90, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            width: 100%;
+            background: var(--color-orange);
+            color: var(--color-white);
+            font-family: var(--font-headings);
+            font-size: var(--size-button);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 30px;
+            border-radius: var(--radius-pill);
+            border: none;
+            box-shadow: var(--shadow-button);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #FDB175;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(248, 159, 90, 0.45);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* OUTPUT PANEL */
+        .output-panel {
+            background: #fafafa;
+            position: relative;
+        }
+
+        .output-content {
+            font-size: 16px;
+            color: var(--color-gray-dark);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .output-placeholder {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* LOADER */
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--color-gray-light);
+            border-top-color: var(--color-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAV -->
+    <nav>
+        <div class="container">
+            <a href="/static/index.html" class="nav-brand">METÀ<span>HODÒS</span></a>
+            <a href="/static/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Torna ai Processi</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="container">
+            <span
+                style="display:inline-block; border: 1px solid rgba(248, 159, 90, 0.5); background: rgba(248, 159, 90, 0.12); color: var(--color-orange); font-family: var(--font-headings); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; padding: 8px 22px; border-radius: 30px; margin-bottom: 24px;">Processo
+                09</span>
+            <h1>PRODUZIONE <span>AI-DRIVEN</span></h1>
+            <p class="subtitle">L'AI struttura i piani di produzione, bilancia le risorse e stima i tempi. L'Ingegnere
+                Umano approva e supervisiona.</p>
+        </div>
+    </header>
+
+    <!-- DEMO APP -->
+    <main class="container">
+        <div class="demo-layout">
+
+            <!-- INPUT PANEL -->
+            <div class="panel">
+                <h2>1. Parametri di Produzione</h2>
+                <form id="prodForm">
+                    <div class="form-group">
+                        <label for="prodotto">Prodotto / Progetto</label>
+                        <input type="text" id="prodotto" placeholder="es. Sedia Ergonomica in Legno di Faggio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantita">Quantità o Lotto</label>
+                        <input type="text" id="quantita" placeholder="es. Lotto pilota da 500 pezzi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vincoli">Vincoli specifici o Note</label>
+                        <textarea id="vincoli"
+                            placeholder="es. Usare colla eco-friendly, consegna urgente entro 3 settimane, evitare vernici lucide."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-magic"></i> Genera Piano Produzione
+                    </button>
+                </form>
+            </div>
+
+            <!-- OUTPUT PANEL -->
+            <div class="panel output-panel">
+                <h2>2. Piano Generato</h2>
+                <div class="loader" id="loader"></div>
+                <div id="outputContainer" class="output-content">
+                    <div class="output-placeholder">
+                        <i class="fas fa-cogs"
+                            style="font-size: 40px; color: var(--color-gray-border); margin-bottom: 15px; display:block;"></i>
+                        Compila il form e clicca genera.<br>L'AI Production Manager elaborerà il piano in pochi istanti.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('prodForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const loader = document.getElementById('loader');
+            const outputContainer = document.getElementById('outputContainer');
+
+            const payload = {
+                prodotto: document.getElementById('prodotto').value,
+                quantita: document.getElementById('quantita').value,
+                vincoli: document.getElementById('vincoli').value
+            };
+
+            // Loading state
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Elaborazione in corso...';
+            outputContainer.innerHTML = '';
+            loader.style.display = 'block';
+
+            try {
+                // Determine API base url (local vs deployed)
+                const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:8000'
+                    : '';
+
+                const res = await fetch(`${baseUrl}/api/production/generate-plan`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Errore Server: ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                // Format plain text to HTML with paragraph tags and basic formatting for bullets
+                let formattedText = data.plan_text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>');
+
+                outputContainer.innerHTML = `<div style="animation: fadeIn 0.5s ease;">${formattedText}</div>`;
+
+            } catch (err) {
+                console.error(err);
+                outputContainer.innerHTML = `<div style="color:var(--color-pink); font-weight:bold; text-align:center;">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i><br><br>
+                    Si è verificato un errore durante la generazione.<br>${err.message}
+                </div>`;
+            } finally {
+                // Reset state
+                loader.style.display = 'none';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-magic"></i> Genera Piano Produzione';
+            }
+        });
+    </script>
+</body>
+
+</html>
