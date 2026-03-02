@@ -18,7 +18,9 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.vectordb.pgvector import PgVector
 
 # ─── Config ───────────────────────────────────────────────────────────────────
-DB_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_xujFI96zlkSr@ep-delicate-base-agzt2gjt-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require")
+DB_URL = os.getenv("DATABASE_URL")
+if not DB_URL:
+    raise ValueError("DATABASE_URL environment variable is missing")
 DOCS_DIR = Path(__file__).parent / "enterprise_docs"
 DOCS_DIR.mkdir(exist_ok=True)
 
@@ -108,8 +110,8 @@ async def chat(req: ChatRequest):
                 response_text += chunk.content
         return ChatResponse(response=response_text)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+        import traceback
+        return ChatResponse(response=f"Error in Agent run: {type(e).__name__} | {str(e)} | {traceback.format_exc()[-200:]}")
 
 @app.post("/api/upload")
 async def upload_document(file: UploadFile = File(...)):
