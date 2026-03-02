@@ -100,6 +100,21 @@ async def serve_frontend():
     return FileResponse("static/index.html")
 
 
+import traceback, os
+
+@app.get("/api/debug")
+async def debug():
+    try:
+        import openai
+        client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": "say hello"}],
+            max_tokens=5
+        )
+        return {"status": "ok", "response": resp.choices[0].message.content, "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12]}
+    except Exception as e:
+        return {"status": "error", "error": f"{type(e).__name__}: {str(e)}", "key_prefix": os.getenv("OPENAI_API_KEY", "NOT SET")[:12], "trace": traceback.format_exc()[-500:]}
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
